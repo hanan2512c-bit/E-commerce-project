@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <script>(function(){try{var t=localStorage.getItem("simplon_theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedback — SIMPLON Beauty Care</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .page-hero { --hero-img: url('https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=1600&auto=format&fit=crop'); }
+
+    #feedback-section { background: var(--cream); }
+
+    .fb-card {
+      background: #4b3f1a; border-radius: 3px; padding: 40px;
+      box-shadow: 0 4px 20px rgba(181,85,106,.1);
+    }
+    .fb-input {
+      display: block; width: 100%;
+      border: 0; border-bottom: 1.5px solid #e0c4cc;
+      background: transparent; color: var(--dark);
+      font-family: 'Jost', sans-serif; font-size: 1rem;
+      font-weight: 700;
+      padding: 10px 4px; margin-bottom: 28px; outline: none;
+      transition: .3s;
+    }
+    .fb-input:focus { border-color: var(--rose); }
+    .fb-input::placeholder { color: #c4a0af; }
+    .fb-label {
+      font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
+      color: var(--gold); display: block; margin-bottom: 6px;
+    }
+
+    /* STAR RATING */
+    .star-rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 6px; margin-bottom: 28px; }
+    .star-rating input { display: none; }
+    .star-rating label {
+      font-size: 1.8rem; color: #ddd; cursor: pointer; transition: .2s;
+    }
+    .star-rating input:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label { color: var(--gold); }
+
+    /* RECENT FEEDBACK CARDS */
+    #recent { background: var(--rose-lt); }
+    .review-card {
+      background: #fff; border-radius: 3px; padding: 24px;
+      margin-bottom: 20px; border-top: 3px solid var(--gold);
+    }
+    .review-card .stars { color: var(--gold); font-size: .85rem; margin-bottom: 10px; }
+    .review-card p { font-size: 1rem; color: var(--mid); line-height: 1.8; font-style: italic; font-weight: 600;}
+    .review-card .reviewer { margin-top: 12px; font-size: .78rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--rose); font-weight: 800;}
+
+    /* SUCCESS */
+    .success-box {
+      display: none; text-align: center; padding: 30px;
+      background: var(--gold-lt); border-radius: 3px; margin-top: 20px;
+      border-left: 3px solid var(--gold);
+    }
+    .success-box i { font-size: 2.5rem; color: var(--gold); margin-bottom: 10px; display: block; }
+    .success-box p { color: var(--rose-dk); font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; }
+  </style>
+</head>
+<body>
+<div id="navbar-placeholder"></div>
+
+<div class="page-hero">
+  <div class="tag"><i class="fa-solid fa-comment-dots me-2"></i>Your Voice Matters</div>
+  <h1>Share Your Feedback</h1>
+  <p style="font-size: 18px;">Help us serve you better</p>
+</div>
+
+<section id="feedback-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <div class="fb-card">
+          <div class="text-center mb-4">
+            <div class="sec-label"><i class="fa-solid fa-pen me-2"></i>Write a Review</div>
+            <div class="sec-title" style="font-size:2.2rem; font-weight: 800; color: #bed873;">We'd Love to Hear<br/>From You</div>
+            <div class="sec-line"></div>
+          </div>
+
+          <label class="fb-label" >Your Full Name</label>
+          <input class="fb-input" id="fb-name" type="text" placeholder="Ashmit, Hannan, Najeeb"/>
+
+          <label class="fb-label">Email Address</label>
+          <input class="fb-input" id="fb-email" type="email" placeholder="your@email.com"/>
+
+          <label class="fb-label">Branch You Visited</label>
+          <select class="fb-input" id="fb-branch">
+            <option value="">— Select Branch —</option>
+            <option>Karachi (Head Office)</option>
+            <option>Lahore</option>
+            <option>Islamabad</option>
+            <option>Peshawar</option>
+            <option>Online Order</option>
+          </select>
+
+          <label class="fb-label">Your Rating</label>
+          <div class="star-rating">
+            <input type="radio" id="s5" name="rating" value="5"/>
+            <label for="s5"><i class="fa-solid fa-star"></i></label>
+            <input type="radio" id="s4" name="rating" value="4"/>
+            <label for="s4"><i class="fa-solid fa-star"></i></label>
+            <input type="radio" id="s3" name="rating" value="3"/>
+            <label for="s3"><i class="fa-solid fa-star"></i></label>
+            <input type="radio" id="s2" name="rating" value="2"/>
+            <label for="s2"><i class="fa-solid fa-star"></i></label>
+            <input type="radio" id="s1" name="rating" value="1"/>
+            <label for="s1"><i class="fa-solid fa-star"></i></label>
+          </div>
+
+          <label class="fb-label">Your Message</label>
+          <textarea class="fb-input" id="fb-msg" rows="4" placeholder="Tell us about your experience..."></textarea>
+
+          <button class="btn-gold w-100 text-center" style="display:block;width:100%" onclick="submitFeedback()">
+            <i class="fa-solid fa-paper-plane me-2"></i>Submit Feedback
+          </button>
+
+          <div class="success-box" id="fb-success">
+            <i class="fa-solid fa-circle-check"></i>
+            <p>Thank you! Your feedback has been received.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECENT REVIEWS -->
+<section id="recent">
+  <div class="container">
+    <div class="text-center">
+      <div class="sec-label"><i class="fa-solid fa-star me-2"></i>Customer Reviews</div>
+      <div class="sec-title">What People Say</div>
+      <div class="sec-line"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="review-card">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p>"Absolutely love the bridal kit! It made my wedding day unforgettable. Quality is exceptional."</p>
+          <div class="reviewer"><i class="fa-solid fa-user me-2"></i>Ayesha R. — Lahore</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="review-card">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p>"The skincare range is just incredible. My skin has never looked better. Highly recommended!"</p>
+          <div class="reviewer"><i class="fa-solid fa-user me-2"></i>Sana M. — Karachi</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="review-card">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+          <p>"Great staff, amazing products. The Islamabad branch is beautifully decorated and welcoming."</p>
+          <div class="reviewer"><i class="fa-solid fa-user me-2"></i>Fatima K. — Islamabad</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-arrow-up"></i></button>
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="common.js"></script>
+<script>
+  renderNav('Feedback'); renderFooter(); initScrollTop();
+
+  function submitFeedback() {
+    var name = document.getElementById('fb-name').value.trim();
+    var email = document.getElementById('fb-email').value.trim();
+    var msg = document.getElementById('fb-msg').value.trim();
+    var rating = document.querySelector('input[name="rating"]:checked');
+
+    var t = document.getElementById('toast');
+    if (!name || !email || !msg) {
+      t.innerHTML = '<i class="fa-solid fa-circle-exclamation me-2"></i>Please fill all fields!';
+      t.style.display = 'block';
+      setTimeout(function(){ t.style.display='none'; }, 2500);
+      return;
+    }
+    document.getElementById('fb-name').value = '';
+    document.getElementById('fb-email').value = '';
+    document.getElementById('fb-msg').value = '';
+    document.getElementById('fb-branch').value = '';
+    if (rating) rating.checked = false;
+    var s = document.getElementById('fb-success');
+    s.style.display = 'block';
+    setTimeout(function(){ s.style.display = 'none'; }, 4000);
+  }
+</script>
+<script src="animations.js"></script>
+</body>
+</html>

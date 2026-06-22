@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Details — SIMPLON Beauty Care</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* Dark Premium Styling for Product Details Section */
+    #product-detail-section {
+      background: var(--dark);
+      color: #ffffff;
+      padding: 60px 0 90px;
+    }
+    
+    .breadcrumbs-detail {
+      font-size: 0.85rem;
+      color: #c4a0af;
+      margin-bottom: 35px;
+      letter-spacing: 1px;
+    }
+    .breadcrumbs-detail a {
+      color: #c4a0af;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .breadcrumbs-detail a:hover {
+      color: var(--gold);
+    }
+    
+    /* Thumbnail Stack & Preview Layout */
+    .detail-images-container {
+      display: flex;
+      gap: 15px;
+    }
+    .thumbnail-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 80px;
+      flex-shrink: 0;
+    }
+    .thumb-btn {
+      width: 100%;
+      height: 80px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: transparent;
+      padding: 0;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.3s;
+    }
+    .thumb-btn:hover, .thumb-btn.active {
+      border-color: var(--gold);
+      box-shadow: 0 0 10px rgba(201, 169, 110, 0.4);
+    }
+    .thumb-btn.active img {
+      opacity: 0.8;
+    }
+    .main-preview-container {
+      flex: 1;
+      height: 480px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+    .main-preview-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .main-preview-container:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Product Info (Right Side) */
+    .brand-title {
+      font-size: 0.78rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .product-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.1;
+      margin-bottom: 15px;
+    }
+    .rating-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .rating-stars {
+      color: var(--gold);
+      font-size: 0.95rem;
+    }
+    .rating-text {
+      font-size: 0.85rem;
+      color: #c4a0af;
+    }
+    .price-container {
+      margin-bottom: 20px;
+    }
+    .original-price {
+      font-size: 1.1rem;
+      color: #7a5566;
+      text-decoration: line-through;
+      margin-right: 12px;
+    }
+    .discount-price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .shipping-note {
+      font-size: 0.82rem;
+      color: #a38593;
+      margin-bottom: 25px;
+    }
+    .divider-detail {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 25px 0;
+    }
+    .description-text {
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: #e0c8d0;
+      margin-bottom: 25px;
+    }
+
+    /* Option Selectors */
+    .option-label {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c4a0af;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .options-grid {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    .option-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      padding: 8px 20px;
+      font-size: 0.82rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .option-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .option-btn.active {
+      border-color: var(--gold);
+      background: var(--gold);
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    /* Action Buttons */
+    .size-chart-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      margin-bottom: 25px;
+      transition: 0.3s;
+    }
+    .size-chart-link:hover {
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(201, 169, 110, 0.6);
+    }
+    
+    .delivery-info {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 16px 20px;
+      border-radius: 4px;
+      border-left: 3px solid var(--gold);
+      font-size: 0.85rem;
+      color: #e0c8d0;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    .delivery-info i {
+      color: var(--gold);
+      font-size: 1.1rem;
+      margin-top: 2px;
+    }
+
+    .btn-detail-order {
+      background: var(--gold);
+      color: var(--dark);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 16px 36px;
+      border: none;
+      flex: 1;
+      border-radius: 4px;
+      transition: 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn-detail-order:hover {
+      background: #ffffff;
+      color: var(--dark);
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+    }
+
+    /* Custom Size Chart Modal */
+    .chart-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+    .chart-content {
+      background: var(--dark);
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      width: 90%;
+      max-width: 500px;
+      padding: 30px;
+      position: relative;
+      color: #ffffff;
+    }
+    .chart-close {
+      position: absolute;
+      top: 15px; right: 20px;
+      background: none; border: none;
+      color: #ffffff; font-size: 1.5rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .chart-close:hover {
+      color: var(--rose);
+    }
+    .chart-table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    .chart-table th, .chart-table td {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 12px;
+      text-align: center;
+      font-size: 0.88rem;
+    }
+    .chart-table th {
+      background: rgba(201, 169, 110, 0.15);
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* Toast notification */
+    #detail-toast {
+      position: fixed;
+      bottom: 82px; right: 28px;
+      background: var(--dark);
+      color: var(--gold);
+      padding: 14px 22px;
+      border-left: 3px solid var(--gold);
+      border-radius: 3px;
+      font-size: 0.85rem;
+      display: none;
+      z-index: 100000;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .detail-images-container {
+        flex-direction: column-reverse;
+      }
+      .thumbnail-stack {
+        flex-direction: row;
+        width: 100%;
+        overflow-x: auto;
+      }
+      .thumb-btn {
+        width: 70px;
+        height: 70px;
+      }
+      .main-preview-container {
+        height: 350px;
+      }
+      .product-title {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="navbar-placeholder"></div>
+
+<!-- PRODUCT DETAIL SECTION -->
+<section id="product-detail-section">
+  <div class="container">
+    
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs-detail">
+      <a href="index.html">Home</a> &nbsp;/&nbsp;
+      <a href="products.html" id="breadcrumb-category">Products</a> &nbsp;/&nbsp;
+      <span id="breadcrumb-title" style="color: #ffffff;">Product Detail</span>
+    </div>
+
+    <!-- Product Main Grid -->
+    <div class="row g-5">
+      
+      <!-- Left Side: Images -->
+      <div class="col-md-6">
+        <div class="detail-images-container">
+          
+          <!-- Thumbnails -->
+          <div class="thumbnail-stack" id="detail-thumbnails">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Main Preview -->
+          <div class="main-preview-container">
+            <img src="" id="main-preview-img" alt="Product Preview"/>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Side: Details -->
+      <div class="col-md-6">
+        <div class="brand-title">SIMPLON Beauty Care</div>
+        <h1 class="product-title" id="detail-name">Product Name</h1>
+        
+        <div class="rating-container">
+          <div class="rating-stars" id="detail-stars">
+            <!-- Dynamically populated stars -->
+          </div>
+          <span class="rating-text" id="detail-reviews-count">(0 reviews)</span>
+        </div>
+
+        <div class="price-container">
+          <span class="original-price" id="detail-old-price">Rs. 0</span>
+          <span class="discount-price" id="detail-price">Rs. 0</span>
+        </div>
+
+        <div class="shipping-note">
+          <i class="fa-solid fa-circle-info me-1" style="color: var(--gold);"></i> Shipping calculated at checkout. Standard rates apply.
+        </div>
+
+        <div class="divider-detail"></div>
+
+        <p class="description-text" id="detail-desc">
+          High-quality beauty care product. Nourishing and premium blend.
+        </p>
+
+        <div class="divider-detail"></div>
+
+        <!-- Dynamic Option Label & Selectors -->
+        <div class="option-label" id="detail-option-label">Option</div>
+        <div class="options-grid" id="detail-options-container">
+          <!-- Dynamically populated options -->
+        </div>
+
+        <div>
+          <a href="#" class="size-chart-link" id="size-chart-trigger">
+            <i class="fa-solid fa-ruler-combined"></i> Size/Volume Chart
+          </a>
+        </div>
+
+        <div class="delivery-info">
+          <i class="fa-solid fa-truck"></i>
+          <div>
+            <strong>Standard Delivery</strong><br/>
+            Delivered in 2-3 working days across Pakistan. Free delivery on orders above Rs. 2000.
+          </div>
+        </div>
+
+        <div class="d-flex flex-column flex-sm-row gap-3">
+          <button class="btn-detail-order" onclick="addProductToCart()" style="background: var(--rose); color: #fff;">
+            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+          </button>
+          <a href="" class="btn-detail-order" id="detail-wa-btn" target="_blank">
+            <i class="fa-brands fa-whatsapp"></i> Order via WhatsApp
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- Size Chart Modal -->
+<div class="chart-modal" id="size-chart-modal">
+  <div class="chart-content">
+    <button class="chart-close" id="size-chart-close">&times;</button>
+    <h4 style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--gold); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+      Size & Details Guide
+    </h4>
+    <div id="chart-table-container">
+      <!-- Dynamically populated chart table -->
+    </div>
+  </div>
+</div>
+
+<!-- Toast notification box -->
+<div id="detail-toast"><i class="fa-solid fa-check me-2"></i><span id="detail-toast-msg">Added to cart!</span></div>
+
+<div id="footer-placeholder"></div>
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="common.js"></script>
+<script>
+  renderNav('Products'); renderFooter(); initScrollTop();
+
+  // Products Details Database
+  var productsDb = {
+    'Herbal Shampoo': {
+      category: 'Hair Care',
+      price: 350,
+      oldPrice: 450,
+      description: 'Nourishing herbal formula for all hair types. Reduces hair fall, strengthens hair follicles, and adds a natural shine. Formulated with organic extracts of Amla, Reetha, and Shikakai.',
+      images: [
+        'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Volume / Size',
+      options: ['250ml', '500ml', '1L'],
+      rating: 4.5,
+      reviews: 12,
+      chart: {
+        headers: ['Volume', 'Usage Duration', 'Packaging'],
+        rows: [
+          ['250ml', '1 Month', 'Bottle'],
+          ['500ml', '2 Months', 'Bottle with Pump'],
+          ['1L', '4-5 Months', 'Family Pack Pump']
+        ]
+      }
+    },
+    'Argan Hair Serum': {
+      category: 'Hair Care',
+      price: 650,
+      oldPrice: 800,
+      description: 'Moroccan argan oil serum for frizz control and deep conditioning. Keeps hair smooth, shiny, and manageable throughout the day while offering protection from styling damage.',
+      images: [
+        'https://www.ameena.pk/cdn/shop/files/arganhairserum-min_1000x.webp?v=1752084080',
+        'https://www.ameena.pk/cdn/shop/files/50_1_medium.webp?v=1752084049'
+      ],
+      optionLabel: 'Bottle Size',
+      options: ['50ml', '100ml'],
+      rating: 4.7,
+      reviews: 18,
+      chart: {
+        headers: ['Size', 'Portability', 'Best For'],
+        rows: [
+          ['50ml', 'Travel Friendly', 'Individual trial'],
+          ['100ml', 'Dresser Size', 'Regular daily use']
+        ]
+      }
+    },
+    'Deep Conditioner': {
+      category: 'Hair Care',
+      price: 420,
+      oldPrice: 500,
+      description: 'Intensive deep conditioning treatment for dry & damaged hair. Restores moisture balance, repairs split ends, and leaves hair incredibly soft.',
+      images: [
+        'https://coswin.pk/cdn/shop/products/DSC02445_f2a9f010-ea9f-4c4a-a4f6-0aa2db6bd1c4.jpg?v=1634990841',
+        'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Volume',
+      options: ['200ml', '400ml'],
+      rating: 4.4,
+      reviews: 7,
+      chart: {
+        headers: ['Size', 'Application', 'Duration'],
+        rows: [
+          ['200ml', 'Weekly Use', '1.5 Months'],
+          ['400ml', 'Frequent Use', '3 Months']
+        ]
+      }
+    },
+    'Coconut Hair Oil': {
+      category: 'Hair Care',
+      price: 280,
+      oldPrice: 350,
+      description: 'Pure coconut oil blend for scalp nourishment and hair growth. Extracted from freshly harvested coconuts, it deep-penetrates hair shaft for strength.',
+      images: [
+        'https://pk.hemaniherbals.com/cdn/shop/files/8964001506287P_1_jpg_9c53e111-f4e8-45c5-94fe-15dd923aab5a.jpg?v=1771266911',
+        'https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Volume',
+      options: ['150ml', '300ml'],
+      rating: 4.8,
+      reviews: 25,
+      chart: {
+        headers: ['Volume', 'Packaging', 'Usage Type'],
+        rows: [
+          ['150ml', 'Flip-cap Bottle', 'Personal care'],
+          ['300ml', 'Wide-mouth Bottle', 'Regular head massage']
+        ]
+      }
+    },
+    'Vitamin C Moisturizer': {
+      category: 'Skin Care',
+      price: 850,
+      oldPrice: 1100,
+      description: 'Brightening moisturizer with SPF 20. Lightweight, non-greasy formula that reduces dark spots and gives an even-toned skin radiance.',
+      images: [
+        'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Net Weight',
+      options: ['50g', '100g'],
+      rating: 4.9,
+      reviews: 34,
+      chart: {
+        headers: ['Size', 'Skin Type', 'SPF Level'],
+        rows: [
+          ['50g', 'All Skins', 'SPF 20 PA++'],
+          ['100g', 'All Skins', 'SPF 20 PA++']
+        ]
+      }
+    },
+    'Rose Clay Face Mask': {
+      category: 'Skin Care',
+      price: 550,
+      oldPrice: 700,
+      description: 'Deep cleansing clay mask with organic rose extract. Draws out impurities, tightens pores, and revitalizes tired skin.',
+      images: [
+        'https://www.brambleberry.com/on/demandware.static/-/Sites-brambleberry-master-catalog/default/dwff229ba6/projectimages/projectimages%20PS000001-000020/PS000020-Main.jpg',
+        'https://www.brambleberry.com/on/demandware.static/-/Sites-brambleberry-master-catalog/default/dwa100b5cc/projectimages/projectimages%20PS000001-000020/PS000020-Secondary.jpg'
+      ],
+      optionLabel: 'Net Weight',
+      options: ['50g', '100g'],
+      rating: 4.6,
+      reviews: 14,
+      chart: {
+        headers: ['Weight', 'Servings', 'Key Clay'],
+        rows: [
+          ['50g', '10-12 applications', 'Kaolin & Rose Extract'],
+          ['100g', '20-25 applications', 'Kaolin & Rose Extract']
+        ]
+      }
+    },
+    'SPF 50 Sunscreen': {
+      category: 'Skin Care',
+      price: 720,
+      oldPrice: 900,
+      description: 'Broad-spectrum protection against UVA and UVB rays. Water-resistant, non-sticky and zero white-cast formula ideal for daily wear.',
+      images: [
+        'https://images.unsplash.com/photo-1617897903246-719242758050?w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Volume',
+      options: ['50ml', '100ml'],
+      rating: 4.7,
+      reviews: 21,
+      chart: {
+        headers: ['Volume', 'Sun Protection', 'Texture'],
+        rows: [
+          ['50ml', 'SPF 50 / PA+++', 'Gel-cream base'],
+          ['100ml', 'SPF 50 / PA+++', 'Gel-cream base']
+        ]
+      }
+    },
+    'Rose Water Toner': {
+      category: 'Skin Care',
+      price: 380,
+      oldPrice: 480,
+      description: 'Natural rose water toner to balance skin pH, tighten pores, and instantly refresh skin. Made from steam-distilled Kannauj roses.',
+      images: [
+        'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1599305090598-fe179d501227?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Volume',
+      options: ['120ml', '250ml'],
+      rating: 4.8,
+      reviews: 19,
+      chart: {
+        headers: ['Volume', 'Spray Type', 'Alcohol Free'],
+        rows: [
+          ['120ml', 'Fine Mist Spray', 'Yes, 100% Pure'],
+          ['250ml', 'Refill Pour Bottle', 'Yes, 100% Pure']
+        ]
+      }
+    },
+    'Pro Makeup Kit': {
+      category: 'Makeup',
+      price: 1800,
+      oldPrice: 2400,
+      description: 'Complete all-in-one professional kit with matching foundation, blush, eyeshadow, mascara, and premium lip gloss shades.',
+      images: [
+        'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Tone Set',
+      options: ['Light', 'Medium', 'Deep'],
+      rating: 4.9,
+      reviews: 42,
+      chart: {
+        headers: ['Tone Option', 'Foundation Match', 'Lip Colors included'],
+        rows: [
+          ['Light', 'Ivory / Classic Sand', 'Pinks & Soft Nudes'],
+          ['Medium', 'Warm Beige / Natural Honey', 'Mauves & Peach'],
+          ['Deep', 'Golden Sun / Bronze', 'Reds & Deep Browns']
+        ]
+      }
+    },
+    'Matte Lipstick Set': {
+      category: 'Makeup',
+      price: 950,
+      oldPrice: 1200,
+      description: 'Set of 6 ultra-comfortable long-lasting matte lipsticks. High-pigment formulas curated for stunning South Asian skin tones.',
+      images: [
+        'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1625093742435-6fa192b6fb10?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Color Theme',
+      options: ['Nudes', 'Pinks', 'Reds'],
+      rating: 4.5,
+      reviews: 15,
+      chart: {
+        headers: ['Set Theme', 'Shades Included', 'Finish'],
+        rows: [
+          ['Nudes', '6 Creamy Nude Shades', 'Velvet Matte'],
+          ['Pinks', '6 Berry & Rose Pinks', 'Velvet Matte'],
+          ['Reds', '6 Crimson & Ruby Reds', 'Velvet Matte']
+        ]
+      }
+    },
+    'HD Foundation': {
+      category: 'Makeup',
+      price: 1100,
+      oldPrice: 1500,
+      description: 'Full-coverage, weightless HD foundation that leaves a natural skin-like finish. Humidity and sweat resistant.',
+      images: [
+        'https://lakyoubeauty.pk/cdn/shop/files/LB-F301.jpg?v=1703519639',
+        'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Shade Code',
+      options: ['Fair', 'Beige', 'Tan', 'Dark'],
+      rating: 4.7,
+      reviews: 28,
+      chart: {
+        headers: ['Shade Code', 'Undertone', 'Skin tone match'],
+        rows: [
+          ['Fair', 'Cool Pink', 'Very Light'],
+          ['Beige', 'Warm Yellow', 'Light-Medium'],
+          ['Tan', 'Olive / Golden', 'Wheatish / Tan'],
+          ['Dark', 'Neutral Warm', 'Rich / Deep Dusky']
+        ]
+      }
+    },
+    'Eyeshadow Palette': {
+      category: 'Makeup',
+      price: 1350,
+      oldPrice: 1800,
+      description: 'A gorgeous 18-shade eyeshadow palette featuring warm sunset tones, smoky grays, glitzy shimmers, and buttery mattes.',
+      images: [
+        'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Palette Mix',
+      options: ['Matte Only', 'Shimmer Only', 'Mixed Theme'],
+      rating: 4.8,
+      reviews: 30,
+      chart: {
+        headers: ['Palette Theme', 'Shades Count', 'Glitter inclusion'],
+        rows: [
+          ['Matte Only', '18 Mattes', 'None'],
+          ['Shimmer Only', '18 Shimmers', 'Metallic Pressed'],
+          ['Mixed Theme', '10 Mattes, 8 Shimmers', 'Pressed Foil']
+        ]
+      }
+    },
+    'Nail Paint Set': {
+      category: 'Nail',
+      price: 480,
+      oldPrice: 600,
+      description: 'A premium pack of 12 quick-dry, chip-resistant nail polishes. Safe, non-toxic formula that stays vibrant for days.',
+      images: [
+        'https://apricot.com.pk/cdn/shop/files/23-PCs-Nail-Art-Acrylic-Gel-Nail-Polish-Set-Apricot-2778.jpg?v=1727600301&width=823',
+        'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Texture Finish',
+      options: ['Glossy', 'Matte', 'Glitter'],
+      rating: 4.4,
+      reviews: 11,
+      chart: {
+        headers: ['Finish Type', 'Drying Time', 'Durability'],
+        rows: [
+          ['Glossy', '60 Seconds', 'Up to 7 days'],
+          ['Matte', '45 Seconds', 'Up to 5 days'],
+          ['Glitter', '90 Seconds', 'Up to 10 days']
+        ]
+      }
+    },
+    'Nail Art Kit': {
+      category: 'Nail',
+      price: 620,
+      oldPrice: 800,
+      description: 'Create gorgeous nails at home with this comprehensive set containing vinyl stickers, metallic strip lines, fine nail glitter, and styling brushes.',
+      images: [
+        'https://gbcosmeticsofficial.com/cdn/shop/files/S8968621073894999bb410565d34c4d3eE.jpg_750x750.jpg_19e9506b-2235-4a1e-bdd7-f5b58ed6d401.webp?v=1752111746&width=493,//gbcosmeticsofficial.com/cdn/shop/files/S8968621073894999bb410565d34c4d3eE.jpg_750x750.jpg_19e9506b-2235-4a1e-bdd7-f5b58ed6d401.webp?v=1752111746&width=600,//gbcosmeticsofficial.com/cdn/shop/files/S8968621073894999bb410565d34c4d3eE.jpg_750x750.jpg_19e9506b-2235-4a1e-bdd7-f5b58ed6d401.webp?v=1752111746&width=713,//gbcosmeticsofficial.com/cdn/shop/files/S8968621073894999bb410565d34c4d3eE.jpg_750x750.jpg_19e9506b-2235-4a1e-bdd7-f5b58ed6d401.webp?v=1752111746&width=823',
+        'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Sticker Style',
+      options: ['Floral', 'Geometric', 'Premium Gold'],
+      rating: 4.6,
+      reviews: 13,
+      chart: {
+        headers: ['Style', 'Difficulty', 'Tools included'],
+        rows: [
+          ['Floral', 'Beginner', 'Stickers, Tweezers'],
+          ['Geometric', 'Intermediate', 'Striping tape, dotting tool'],
+          ['Premium Gold', 'Professional', 'Stamping plates, foil']
+        ]
+      }
+    },
+    'Gel Nail Kit': {
+      category: 'Nail',
+      price: 1500,
+      oldPrice: 2000,
+      description: 'Complete salon-grade gel manicure kit including a powerful LED/UV curing lamp, base coat, top coat, and 3 gorgeous gel shades.',
+      images: [
+        'https://m.media-amazon.com/images/I/51p2nc0z-PL._SY300_SX300_QL70_FMwebp_.jpg',
+        'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'UV Lamp Power',
+      options: ['Mini 6W', 'Pro 36W'],
+      rating: 4.8,
+      reviews: 22,
+      chart: {
+        headers: ['Lamp Option', 'Curing Speed', 'Ideal For'],
+        rows: [
+          ['Mini 6W', '90 seconds', 'Travel and quick fixes'],
+          ['Pro 36W', '30 seconds', 'Professional home manicures']
+        ]
+      }
+    },
+    'Gold Plated Set': {
+      category: 'Jewellery',
+      price: 1200,
+      oldPrice: 1600,
+      description: 'A breathtaking 24K gold plated necklace and matching drop earrings set. Showcases traditional filigree motifs with a modern touch.',
+      images: [
+        'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Necklace Length',
+      options: ['Small (14")', 'Medium (16")', 'Large (18")'],
+      rating: 4.8,
+      reviews: 17,
+      chart: {
+        headers: ['Size', 'Necklace Length', 'Style'],
+        rows: [
+          ['Small', '14 inches', 'Choker style'],
+          ['Medium', '16 inches', 'Princess length'],
+          ['Large', '18 inches', 'Matinee length']
+        ]
+      }
+    },
+    'Jhumka Earrings': {
+      category: 'Jewellery',
+      price: 750,
+      oldPrice: 1000,
+      description: 'Exquisite traditional handcrafted jhumka earrings featuring detailed pearls, gemstone settings, and comfortable fish-hook backings.',
+      images: [
+        'https://images.unsplash.com/photo-1630019852942-f89202989a59?w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Metal Finish',
+      options: ['Antique Gold', 'Oxidised Silver'],
+      rating: 4.9,
+      reviews: 26,
+      chart: {
+        headers: ['Metal Finish', 'Weight', 'Gemstones'],
+        rows: [
+          ['Antique Gold', 'Lightweight (12g)', 'Faux Pearls & Rubies'],
+          ['Oxidised Silver', 'Lightweight (10g)', 'Kundan Glass Crystals']
+        ]
+      }
+    },
+    'Stone Bracelet': {
+      category: 'Jewellery',
+      price: 580,
+      oldPrice: 750,
+      description: 'An elegant brass bracelet adorned with beautiful polished synthetic gemstones. Features a durable lobster claw clasp.',
+      images: [
+        'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Stone Type',
+      options: ['Ruby Red', 'Emerald Green', 'Sapphire Blue'],
+      rating: 4.7,
+      reviews: 14,
+      chart: {
+        headers: ['Stone Type', 'Base Material', 'Clasp'],
+        rows: [
+          ['Ruby Red', 'High-quality Brass', 'Adjustable Lobster Clasp'],
+          ['Emerald Green', 'High-quality Brass', 'Adjustable Lobster Clasp'],
+          ['Sapphire Blue', 'High-quality Brass', 'Adjustable Lobster Clasp']
+        ]
+      }
+    },
+    'Complete Bridal Kit': {
+      category: 'Bridal',
+      price: 5500,
+      oldPrice: 7500,
+      description: 'The ultimate luxury box for brides containing waterproof HD makeup, brightening rose skincare essentials, matching jewellery, and a premium bridal fragrance.',
+      images: [
+        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiY8Kv6tDObrTXO4p11Ps-BUFq4ROMlrOg6kQsiQI-1hyphenhyphenalzfZjxmoqIsQYDcDv-pqND6CkCPu_MeTpfIxbWbAk6JBUHaDj3jWTJYbmSiY_6merdvQ8gCEOvmazuMWTaFEQZZW21H8e3HV3/s1600/Khushi_World_BridalMakeUpKit1.jpg',
+      ],
+      optionLabel: 'Package Selection',
+      options: ['Standard Pack', 'Deluxe Box', 'Grand Royal Box'],
+      rating: 5.0,
+      reviews: 56,
+      chart: {
+        headers: ['Package Option', 'Items Count', 'Packaging'],
+        rows: [
+          ['Standard Pack', '8 Items', 'Satin Bag'],
+          ['Deluxe Box', '12 Items', 'Velvet Keepsake Box'],
+          ['Grand Royal Box', '18 Items + Jewellery', 'Leather Vanity Case']
+        ]
+      }
+    },
+    'Bridal Fragrance Set': {
+      category: 'Bridal',
+      price: 2800,
+      oldPrice: 3500,
+      description: 'An elegant long-lasting fragrance duo set. Showcases warm notes of jasmine, saffron, sandalwood, and sweet musk.',
+      images: [
+        'https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=800&auto=format&fit=crop',
+        'https://media.weddingz.in/images/a1fc38347f19abb505e03f493b1b13a4/Top-5-Bridal-Perfumes-that-will-leave-you-smelling-amazing-on-your-D-day4.jpg'
+      ],
+      optionLabel: 'Main Accords',
+      options: ['Oud Saffron', 'Jasmine Musk'],
+      rating: 4.8,
+      reviews: 20,
+      chart: {
+        headers: ['Accord Option', 'Sillage', 'Longevity'],
+        rows: [
+          ['Oud Saffron', 'Heavy / Intense', '12+ Hours'],
+          ['Jasmine Musk', 'Moderate / Romantic', '8-10 Hours']
+        ]
+      }
+    },
+    'Bridal Jewellery Set': {
+      category: 'Bridal',
+      price: 4200,
+      oldPrice: 5500,
+      description: 'A majestic traditional Kundan and faux-emerald bridal jewellery set. Consists of a heavy choker, drop earrings, and a matha patti.',
+      images: [
+        'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=800&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&auto=format&fit=crop'
+      ],
+      optionLabel: 'Necklace Fitting',
+      options: ['Adjustable Choker', 'Layered Queen Set'],
+      rating: 4.9,
+      reviews: 33,
+      chart: {
+        headers: ['Package Option', 'Earring Style', 'Maang Tikka Size'],
+        rows: [
+          ['Adjustable Choker', 'Jhumka style', 'Standard Matha Patti'],
+          ['Layered Queen Set', 'Sahara Ear chains', 'Grand Chand Tikka']
+        ]
+      }
+    },
+    'Ombre Lip Liner': {
+      category: 'Makeup',
+      price: 450,
+      oldPrice: 1000,
+      description: 'A vibrant ombre lip liner that creates a stunning gradient effect from deep to light shades.',
+      images: [
+        'https://thelipbar.com/cdn/shop/files/facts-bawse-extra_713x.jpg?v=1731296591',
+        'https://cdn.shopify.com/s/files/1/1919/5103/files/matte_bawse_swatch_1_493x_d0326735-ebfd-4d55-aa40-ff9fb63c55f0.webp?v=1771479565'
+      ],
+      optionLabel: 'Ombre Lip Liner',
+      options: ['Contour & Fade', 'Dual-Tone Twist'],
+      rating: 4,
+      reviews: 33,
+    },
+    'Crystal Anklet': {
+      category: 'Jewellery',
+      price: 650,
+      oldPrice: 1000,
+      description: 'A sparkling crystal anklet set designed to add elegant shimmer to your bridal wear or everyday fashion outfits.',
+      images: [
+        'https://m.media-amazon.com/images/I/51EtuF4+G9L._AC_SY500_.jpg',
+        'https://m.media-amazon.com/images/I/51tWuXJ047L._AC_SY500_.jpg'
+      ],
+      optionLabel: 'Necklace Fitting',
+      options: ['Adjustable Choker', 'Layered Queen Set'],
+      rating: 4.9,
+      reviews: 33,
+    },
+    'Vitamin E Night Cream': {
+      category: 'Makeup',
+      price: 950,
+      oldPrice: 1500,
+      description: 'Brightening moisturizer with SPF 20. Lightweight, non-greasy formula that reduces dark spots and gives an even-toned skin radiance.',
+      images: [
+        'https://alfatah.pk/cdn/shop/files/5028197916220.jpg?v=1693177581',
+      ],
+      optionLabel: 'Net Weight',
+      options: ['50g', '100g'],
+      rating: 4.9,
+      reviews: 34,
+      chart: {
+        headers: ['Size', 'Skin Type', 'SPF Level'],
+        rows: [
+          ['50g', 'All Skins', 'SPF 20 PA++'],
+          ['100g', 'All Skins', 'SPF 20 PA++']
+        ]
+      }
+    },
+    'Brow Gel': {
+      category: 'Makeup',
+      price: 520,
+      oldPrice: 1000,
+      description: 'Brightening moisturizer with SPF 20. Lightweight, non-greasy formula that reduces dark spots and gives an even-toned skin radiance.',
+      images: [
+        'https://www.lookfantastic.ae/images?url=https://static.thcdn.com/productimg/original/12875650-1875256174847353.jpg&format=webp&auto=avif&width=820&height=820&fit=cover',
+      ],
+      optionLabel: 'Net Weight',
+      options: ['50g', '100g'],
+      rating: 4.9,
+      reviews: 34,
+      optionLabel: 'Feather Brow Gel',
+      options: ['Clear Laminating Wax', 'Tinted Fluffy Hold'],
+    },
+    'Glow Serum': {
+      category: 'Makeup',
+      price: 1100,
+      oldPrice: 1500,
+      description: 'Brightening moisturizer with SPF 20. Lightweight, non-greasy formula that reduces dark spots and gives an even-toned skin radiance.',
+      images: [
+        'https://retixc.com/wp-content/uploads/2024/01/GLOW-BOOSTER.png',
+      ],
+      rating: 4.9,
+      reviews: 34,
+      optionLabel: 'Glow Booster Serum',
+      options: ['Vitamin C Radiance', 'Hyaluronic Dewy Drop'],
+    },
+    'Scalp Scrub': {
+      category: 'Makeup',
+      price: 780,
+      oldPrice: 1000,
+      description: 'Salt & tea tree oil scrub to clarify scalp, reduce flakes and boost hair growth.',
+      images: [
+        'https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/AF0413s.jpg?im=Resize,width=750',
+      ],
+      rating: 4,
+      reviews: 32,
+      optionLabel: 'Scalp Detox Scrub',
+      options: ['Sea Salt Purifying', 'Tea Tree Clarifying'],
+    },
+    'Glitter Nail Set': {
+      category: 'Nail',
+      price: 560,
+      oldPrice: 1000,
+      description: 'Holographic & chunky glitter nail polishes in 6 dazzling shades. Party-ready!.',
+      images: [
+        'https://m.media-amazon.com/images/I/61o5wOuDHWL.jpg',
+      ],
+      rating: 3.5,
+      reviews: 30,
+      optionLabel: 'Glitter Nail Set',
+      options: ['Holographic Shimmer', 'Chunky Disco Sparkle'],
+    },
+    'Bridal Henna Kit': {
+      category: 'Nail',
+      price: 1400,
+      oldPrice: 1700,
+      description: 'Premium natural henna cones + stencils for stunning bridal mehndi designs.',
+      images: [
+        'https://khairhenna.com/cdn/shop/files/BRIDALHENGUAKIT.png?v=1698488312&width=600',
+      ],
+      rating: 5,
+      reviews: 34,
+      optionLabel: 'Bridal Henna Kit',
+      options: ['Traditional Intricate Cone', 'Organic Fast-Stain Paste'],
+    },
+    'Hair Care': {
+      category: 'Hair Care',
+      price: 250,
+      oldPrice: 500,
+      description: 'Deeply moisturizing leave-in cream, oil, and curling butter kit for types 3 & 4 hair.',
+      images: [
+        'https://www.vilvahstore.com/cdn/shop/articles/d23265de0513497608026447779ab962.jpg?v=1752057296&width=800',
+      ],
+      rating: 4.5,
+      reviews: 142,
+      optionLabel: 'Hair Porosity / Routine',
+      options: ['LOC Method Kit (High Porosity)', 'LCO Method Kit (Low Porosity)'],
+    },
+
+  };
+
+  // Extract query parameters
+  function getQueryParam(param) {
+    var urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  // Load product details
+  var selectedProduct = getQueryParam('product');
+  var productData = productsDb[selectedProduct] || productsDb['Herbal Shampoo']; // Fallback
+
+  var selectedOption = productData.options[0];
+
+  function loadProductDetails() {
+    // Breadcrumbs
+    document.getElementById('breadcrumb-category').textContent = productData.category;
+    document.getElementById('breadcrumb-category').href = 'products.html';
+    document.getElementById('breadcrumb-title').textContent = selectedProduct || 'Herbal Shampoo';
+
+    // Info Text
+    document.getElementById('detail-name').textContent = selectedProduct || 'Herbal Shampoo';
+    document.getElementById('detail-desc').textContent = productData.description;
+    document.getElementById('detail-price').textContent = 'Rs. ' + productData.price.toLocaleString();
+    document.getElementById('detail-old-price').textContent = 'Rs. ' + productData.oldPrice.toLocaleString();
+    document.getElementById('detail-reviews-count').textContent = '(' + productData.reviews + ' reviews)';
+
+    // Stars
+    var starsContainer = document.getElementById('detail-stars');
+    starsContainer.innerHTML = '';
+    var fullStars = Math.floor(productData.rating);
+    var halfStar = productData.rating % 1 >= 0.5;
+    for (var i = 0; i < 5; i++) {
+      if (i < fullStars) {
+        starsContainer.innerHTML += '<i class="fa-solid fa-star"></i>';
+      } else if (i === fullStars && halfStar) {
+        starsContainer.innerHTML += '<i class="fa-solid fa-star-half-stroke"></i>';
+      } else {
+        starsContainer.innerHTML += '<i class="fa-regular fa-star"></i>';
+      }
+    }
+
+    // Main Preview
+    document.getElementById('main-preview-img').src = productData.images[0];
+    document.getElementById('main-preview-img').alt = selectedProduct;
+
+    // Thumbnails
+    var thumbContainer = document.getElementById('detail-thumbnails');
+    thumbContainer.innerHTML = '';
+    productData.images.forEach(function(imgSrc, index) {
+      var activeClass = index === 0 ? ' active' : '';
+      thumbContainer.innerHTML += `
+        <button class="thumb-btn${activeClass}" onclick="changePreviewImage('${imgSrc}', this)">
+          <img src="${imgSrc}" alt="thumb"/>
+        </button>
+      `;
+    });
+
+    // Options Label and Container
+    document.getElementById('detail-option-label').textContent = productData.optionLabel;
+    var optionsContainer = document.getElementById('detail-options-container');
+    optionsContainer.innerHTML = '';
+    productData.options.forEach(function(opt, index) {
+      var activeClass = index === 0 ? ' active' : '';
+      optionsContainer.innerHTML += `
+        <button class="option-btn${activeClass}" onclick="selectOption('${opt}', this)">
+          ${opt}
+        </button>
+      `;
+    });
+
+    // WhatsApp Link Generation
+    updateWhatsAppLink();
+
+    // Table Generation for Size Chart
+    var tableContainer = document.getElementById('chart-table-container');
+    var chartHtml = `<table class="chart-table"><thead><tr>`;
+    productData.chart.headers.forEach(h => {
+      chartHtml += `<th>${h}</th>`;
+    });
+    chartHtml += `</tr></thead><tbody>`;
+    productData.chart.rows.forEach(row => {
+      chartHtml += `<tr>`;
+      row.forEach(cell => {
+        chartHtml += `<td>${cell}</td>`;
+      });
+      chartHtml += `</tr>`;
+    });
+    chartHtml += `</tbody></table>`;
+    tableContainer.innerHTML = chartHtml;
+  }
+
+  function changePreviewImage(imgSrc, btnEl) {
+    document.getElementById('main-preview-img').src = imgSrc;
+    document.querySelectorAll('.thumb-btn').forEach(btn => btn.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+
+  function selectOption(optionName, btnEl) {
+    selectedOption = optionName;
+    document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('active'));
+    btnEl.classList.add('active');
+    updateWhatsAppLink();
+  }
+
+  function updateWhatsAppLink() {
+    var phoneNumber = '923001234567'; // SIMPLON Official WhatsApp
+    var productName = selectedProduct || 'Herbal Shampoo';
+    var message = `Hi SIMPLON Beauty Care, I would like to order/inquire about:\n\n*Product:* ${productName}\n*Option:* ${selectedOption}\n*Price:* Rs. ${productData.price.toLocaleString()}\n\nPlease guide me on the delivery steps. Thank you!`;
+    
+    var waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    document.getElementById('detail-wa-btn').href = waUrl;
+  }
+
+  // Add to LocalStorage Shopping Cart
+  function addProductToCart() {
+    var productName = selectedProduct || 'Herbal Shampoo';
+    var cart = [];
+    try {
+      cart = JSON.parse(localStorage.getItem('simplon_cart') || '[]');
+    } catch(e) { cart = []; }
+
+    var itemName = productName + " (" + selectedOption + ")";
+    var existingItem = cart.find(item => item.name === itemName);
+
+    if (existingItem) {
+      existingItem.qty++;
+    } else {
+      cart.push({
+        name: itemName,
+        price: productData.price,
+        qty: 1
+      });
+    }
+
+    localStorage.setItem('simplon_cart', JSON.stringify(cart));
+    
+    // Update navbar badge count
+    if (typeof updateNavbarCartCount === 'function') {
+      updateNavbarCartCount();
+    }
+
+    // Show details toast
+    var toast = document.getElementById('detail-toast');
+    var toastMsg = document.getElementById('detail-toast-msg');
+    toastMsg.textContent = productName + ' added to cart!';
+    toast.style.display = 'block';
+    setTimeout(function() {
+      toast.style.display = 'none';
+    }, 2200);
+  }
+
+  // Size Chart Trigger Logic
+  document.getElementById('size-chart-trigger').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('size-chart-modal').style.display = 'flex';
+  });
+
+  document.getElementById('size-chart-close').addEventListener('click', function() {
+    document.getElementById('size-chart-modal').style.display = 'none';
+  });
+
+  document.getElementById('size-chart-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.style.display = 'none';
+    }
+  });
+
+  // Load details on start
+  loadProductDetails();
+</script>
+<script src="animations.js"></script>
+</body>
+</html>

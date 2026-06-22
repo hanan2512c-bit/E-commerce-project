@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <script>(function(){try{var t=localStorage.getItem("simplon_theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us — SIMPLON Beauty Care</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .page-hero { --hero-img: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1600&auto=format&fit=crop'); }
+    #contact-section { background: var(--cream); }
+    .contact-card {
+      background: #fff; border-radius: 3px; padding: 24px;
+      margin-bottom: 16px; border-left: 4px solid var(--gold);
+      transition: .3s; cursor: pointer;
+    }
+    .contact-card:hover { box-shadow: 0 6px 20px rgba(181,85,106,.15); transform: translateX(4px); }
+    .contact-card.active-branch { border-color: var(--rose); background: var(--rose-lt); }
+    .contact-card h6 { font-family:'Cormorant Garamond',serif; font-size:1.30rem; color:var(--rose-dk); margin-bottom:10px; font-weight: 1000;}
+    .contact-card p { font-size: 1rem; color:var(--mid); margin:4px 0; font-weight: 900;}
+    .c-icon { color:var(--gold); margin-right:8px; width:16px; }
+    .map-frame { width:100%; height:420px; border:none; border-radius:3px; }
+    .hours-box { background:var(--dark); color:#c4a0af; border-radius:3px; padding:26px; margin-top:20px; }
+    .hours-box h6 { color:var(--gold); font-family:'Cormorant Garamond',serif; font-size:1.3rem; margin-bottom:14px; font-weight: 1000;}
+    .hours-box p { font-size:1rem; margin:6px 0; }
+    .hours-box .day { color:#7a5566; font-size:1rem; letter-spacing:1.5px; text-transform:uppercase; font-weight: 1000;}
+  </style>
+</head>
+<body>
+<div id="navbar-placeholder"></div>
+
+<div class="page-hero">
+  <div class="tag" style="font-size:1.1rem"><i class="fa-solid fa-location-dot me-2"></i>Find Us</div>
+  <h1>Contact Us</h1>
+  <p>Visit any of our branches across Pakistan</p>
+</div>
+
+<section id="contact-section">
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- BRANCHES -->
+      <div class="col-lg-5">
+        <div class="sec-label mb-3"><i class="fa-solid fa-store me-2"></i>Our Branches</div>
+        <p style="color:var(--mid); font-size:1rem; margin-bottom:24px; font-weight:900;">Click on a branch to view its location on the map.</p>
+
+        <div class="contact-card active-branch" onclick="showMap('karachi',this)">
+          <h6><i class="fa-solid fa-store c-icon"></i>Karachi — Head Office</h6>
+          <p><i class="fa-solid fa-map-pin c-icon"></i>Shop #12, Beauty Mall, Saddar, Karachi</p>
+          <p><i class="fa-solid fa-phone c-icon"></i>021-3456789</p>
+          <p><i class="fa-solid fa-envelope c-icon"></i>karachi@simplon.com</p>
+        </div>
+
+        <div class="contact-card" onclick="showMap('lahore',this)">
+          <h6><i class="fa-solid fa-store c-icon"></i>Lahore Branch</h6>
+          <p><i class="fa-solid fa-map-pin c-icon"></i>Plot #5, Gulberg III, Lahore</p>
+          <p><i class="fa-solid fa-phone c-icon"></i>042-1234567</p>
+          <p><i class="fa-solid fa-envelope c-icon"></i>lahore@simplon.com</p>
+        </div>
+
+        <div class="contact-card" onclick="showMap('islamabad',this)">
+          <h6><i class="fa-solid fa-store c-icon"></i>Islamabad Branch</h6>
+          <p><i class="fa-solid fa-map-pin c-icon"></i>F-7 Markaz, Blue Area, Islamabad</p>
+          <p><i class="fa-solid fa-phone c-icon"></i>051-9876543</p>
+          <p><i class="fa-solid fa-envelope c-icon"></i>isb@simplon.com</p>
+        </div>
+
+        <div class="contact-card" onclick="showMap('peshawar',this)">
+          <h6><i class="fa-solid fa-store c-icon"></i>Peshawar Branch</h6>
+          <p><i class="fa-solid fa-map-pin c-icon"></i>Qissa Khwani Bazaar, Peshawar</p>
+          <p><i class="fa-solid fa-phone c-icon"></i>091-5554321</p>
+          <p><i class="fa-solid fa-envelope c-icon"></i>pesh@simplon.com</p>
+        </div>
+      </div>
+
+      <!-- MAP + HOURS -->
+      <div class="col-lg-7">
+        <div class="sec-label mb-3"><i class="fa-solid fa-map me-2"></i>Location Map</div>
+        <iframe id="map-frame" class="map-frame"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3619.8!2d67.0099!3d24.8553!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33e97f843de9d%3A0x37bdb22c4da28ccd!2sSaddar%2C%20Karachi%2C%20Karachi%20City%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+
+        <div class="hours-box">
+          <h6><i class="fa-solid fa-clock me-2"></i>Opening Hours</h6>
+          <div class="row">
+            <div class="col-6">
+              <p class="day">Monday – Saturday</p>
+              <p>10:00 AM – 9:00 PM</p>
+            </div>
+            <div class="col-6">
+              <p class="day">Sunday</p>
+              <p>12:00 PM – 6:00 PM</p>
+            </div>
+          </div>
+          <hr style="border-color:#3a1e28;margin:14px 0"/>
+          <p><i class="fa-solid fa-globe me-2" style="color:var(--gold)"></i>www.simplonbeauty.com</p>
+          <p><i class="fa-solid fa-envelope me-2" style="color:var(--gold)"></i>info@simplon.com</p>
+          <p><i class="fa-brands fa-whatsapp me-2" style="color:var(--gold)"></i>+92 300 1234567</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="common.js"></script>
+<script>
+  renderNav('Contact'); renderFooter(); initScrollTop();
+
+  var maps = {
+    karachi:   'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3619.8!2d67.0099!3d24.8553!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33e97f843de9d%3A0x37bdb22c4da28ccd!2sSaddar%2C%20Karachi!5e0!3m2!1sen!2s!4v1700000000000',
+    lahore:    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3401.0!2d74.3436!3d31.5204!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391904496f067a13%3A0x18b08b2e5c0e9a4!2sGulberg%20III%2C%20Lahore!5e0!3m2!1sen!2s!4v1700000000001',
+    islamabad: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.0!2d73.0479!3d33.7294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfbef5d0e54b73%3A0x3e3d7c0cc89e2d84!2sF-7%20Markaz%2C%20Islamabad!5e0!3m2!1sen!2s!4v1700000000002',
+    peshawar:  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3304.0!2d71.5249!3d34.0151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38d916e9c0f0f0c3%3A0x1234abcd5678ef!2sQissa%20Khwani%20Bazaar%2C%20Peshawar!5e0!3m2!1sen!2s!4v1700000000003'
+  };
+
+  function showMap(city, el) {
+    document.querySelectorAll('.contact-card').forEach(c => c.classList.remove('active-branch'));
+    el.classList.add('active-branch');
+    document.getElementById('map-frame').src = maps[city];
+  }
+</script>
+<script src="animations.js"></script>
+</body>
+</html>

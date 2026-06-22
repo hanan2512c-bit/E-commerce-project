@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products — SIMPLON Beauty Care</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .page-hero { --hero-img: url('https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1600&auto=format&fit=crop'); }
+    #products-section { background: var(--cream); padding: 70px 20px; }
+
+    .filter-tabs { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:44px; }
+    .filter-btn {
+      border:1px solid var(--gold); color:var(--mid);
+      background:transparent; padding:8px 22px;
+      font-size:.75rem; letter-spacing:2px; text-transform:uppercase;
+      border-radius:0; cursor:pointer; transition:.3s;
+    }
+    .filter-btn:hover, .filter-btn.active { background:var(--gold); color:var(--dark); }
+
+    .prod-card {
+      background:#fff; border-radius:4px; overflow:hidden;
+      transition:.35s; box-shadow:0 2px 10px rgba(0,0,0,.07);
+      margin-bottom:28px; height:100%;
+    }
+    .prod-card:hover { transform:translateY(-6px); box-shadow:0 14px 32px rgba(181,85,106,.2); }
+    .prod-card img { width:100%; height:220px; object-fit:cover; }
+    .prod-badge {
+      position:absolute; top:12px; left:12px;
+      background:var(--rose); color:#fff;
+      font-size:.62rem; letter-spacing:1.5px; text-transform:uppercase;
+      padding:4px 10px; border-radius:2px;
+    }
+    .prod-badge.gold { background:var(--gold); color:var(--dark); }
+    .prod-card-body { padding:18px; display:flex; flex-direction:column; height:calc(100% - 220px); }
+    .prod-card-body h5 { font-family:'Cormorant Garamond',serif; font-size:1.30rem; color:var(--dark); margin-bottom:4px; font-weight:900;}
+    .prod-card-body p { font-size:.96rem; color:var(--mid); margin-bottom:12px; line-height:1.7; flex:1; font-weight:900;}
+    .prod-footer { display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
+    .prod-price { font-size:.95rem; font-weight:600; color:var(--rose); }
+
+    .add-btn {
+      background:var(--dark); color:var(--gold);
+      border:none; font-size:.72rem; letter-spacing:1.5px;
+      text-transform:uppercase; padding:9px 16px; border-radius:0;
+      transition:.3s; cursor:pointer;
+    }
+    .add-btn:hover { background:var(--rose); color:#fff; }
+    .add-btn:active { transform:scale(.96); }
+
+    /* CART TOAST */
+    #cart-toast {
+      position:fixed; bottom:30px; right:30px;
+      background:var(--dark); color:var(--gold);
+      padding:14px 22px; border-left:3px solid var(--gold);
+      border-radius:3px; font-size:.85rem;
+      display:none; z-index:9999;
+      box-shadow:0 8px 24px rgba(0,0,0,.3);
+    }
+
+    /* CART BUBBLE */
+    #cart-bubble {
+      position:fixed; bottom:30px; left:30px;
+      background:var(--rose); color:#fff;
+      padding:12px 20px; border-radius:30px;
+      font-size:.82rem; letter-spacing:1px;
+      cursor:pointer; z-index:9999;
+      box-shadow:0 6px 20px rgba(181,85,106,.4);
+      transition:.3s; display:none;
+    }
+    #cart-bubble:hover { background:var(--rose-dk); }
+    #cart-bubble .cart-count {
+      background:#fff; color:var(--rose);
+      border-radius:50%; width:22px; height:22px;
+      display:inline-flex; align-items:center; justify-content:center;
+      font-size:.75rem; font-weight:700; margin-left:8px;
+    }
+  </style>
+</head>
+<body>
+<div id="navbar-placeholder"></div>
+
+<div class="page-hero">
+  <div class="tag"><i class="fa-solid fa-bag-shopping me-2"></i>Our Collection</div>
+  <h1>Our Products</h1>
+  <p>Premium beauty essentials for every woman</p>
+</div>
+
+<section id="products-section">
+  <div class="container">
+
+<!-- ===== TRENDING NOW ===== -->
+    <div id="trending-section" class="mb-5">
+      <div class="text-center mb-4">
+        <div class="sec-label" style="justify-content:center;"><i class="fa-solid fa-fire me-2" style="color:var(--rose);"></i>Trending</div>
+        <div class="sec-title" style="font-size:2rem;">Trending Now</div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="row g-4">
+
+        <!-- Trending 1 -->
+        <div class="col-6 col-md-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Matte%20Lipstick%20Set'">
+            <img src="https://zenixstore.pk/cdn/shop/files/5_1756301435.webp?v=1757067909&width=1500" alt="Matte Lipstick Set"/>
+            <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Matte Lipstick Set</h5>
+              <p>6 long-lasting matte shades loved by thousands.</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 950</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Matte%20Lipstick%20Set'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trending 2 -->
+        <div class="col-6 col-md-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Argan%20Hair%20Serum'">
+            <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500&auto=format&fit=crop" alt="Argan Hair Serum"/>
+            <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-wind me-2" style="color:var(--mid);font-size:.85rem"></i>Argan Hair Serum</h5>
+              <p>Moroccan argan oil for frizz-free, glossy hair.</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 650</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Argan%20Hair%20Serum'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trending 3 -->
+        <div class="col-6 col-md-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Eyeshadow%20Palette'">
+            <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&auto=format&fit=crop" alt="Eyeshadow Palette"/>
+            <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Eyeshadow Palette</h5>
+              <p>18-shade smoky palette — our #1 social media hit.</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 1350</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Eyeshadow%20Palette'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trending 4 -->
+        <div class="col-6 col-md-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Gold%20Plated%20Set'">
+            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&auto=format&fit=crop" alt="Gold Plated Set"/>
+            <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-gem me-2" style="color:var(--mid);font-size:.85rem"></i>Gold Plated Set</h5>
+              <p>Elegant necklace + earring set — perfect for events.</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 1200</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Gold%20Plated%20Set'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===== NEW ARRIVALS ===== -->
+    <div id="new-arrivals-section" class="mb-5">
+      <div class="text-center mb-4">
+        <div class="sec-label" style="justify-content:center;"><i class="fa-solid fa-star me-2" style="color:var(--gold);"></i>Fresh Picks</div>
+        <div class="sec-title" style="font-size:2rem;">New Arrivals</div>
+        <div class="sec-line"></div>
+      </div>
+
+
+      
+      <div class="row g-4">
+
+        <!-- New 1 -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Glow%20Serum'">
+            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop" alt="Glow Serum"/>
+            <div class="prod-badge gold">New</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-droplet me-2" style="color:var(--mid);font-size:.85rem"></i>Glow Booster Serum</h5>
+              <p>Niacinamide + Hyaluronic serum for radiant, dewy skin. Lightweight & fast-absorbing.</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 1100</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Glow%20Serum'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New 2 -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Ombre%20Lip%20Liner'">
+            <img src="https://thelipbar.com/cdn/shop/files/facts-bawse-extra_713x.jpg?v=1731296591" alt="Ombre Lip Liner"/>
+            <div class="prod-badge gold">New</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Ombre Lip Liner</h5>
+              <p>Dual-ended blendable lip liner for the perfect ombre pout. 8 shades available.</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 450</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Ombre%20Lip%20Liner'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New 3 -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Scalp%20Scrub'">
+            <img src="https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/AF0413s.jpg?im=Resize,width=750" alt="Scalp Scrub"/>
+            <div class="prod-badge gold">New</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-wind me-2" style="color:var(--mid);font-size:.85rem"></i>Scalp Detox Scrub</h5>
+              <p>Salt & tea tree oil scrub to clarify scalp, reduce flakes and boost hair growth.</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 780</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Scalp%20Scrub'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New 4 -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Crystal%20Anklet'">
+            <img src="https://m.media-amazon.com/images/I/51EtuF4+G9L._AC_SY500_.jpg" alt="Crystal Anklet"/>
+            <div class="prod-badge gold">New</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-gem me-2" style="color:var(--mid);font-size:.85rem"></i>Crystal Anklet Set</h5>
+              <p>Dainty crystal-studded anklets in gold & silver. Set of 2, gift-ready packaging.</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 650</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Crystal%20Anklet'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New 5 -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Brow%20Gel'">
+            <img src="https://www.lookfantastic.ae/images?url=https://static.thcdn.com/productimg/original/12875650-1875256174847353.jpg&format=webp&auto=avif&width=820&height=820&fit=cover" alt="Brow Gel"/>
+            <div class="prod-badge gold">New</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-eye me-2" style="color:var(--mid);font-size:.85rem"></i>Feather Brow Gel</h5>
+              <p>Tinted brow gel for fluffy, natural brows. Waterproof & flexible hold.</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 520</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Brow%20Gel'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New 6 -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Vitamin%20E%20Night%20Cream'">
+            <img src="https://alfatah.pk/cdn/shop/files/5028197916220.jpg?v=1693177581" alt="Night Cream"/>
+            <div class="prod-badge gold">New</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-moon me-2" style="color:var(--mid);font-size:.85rem"></i>Vitamin E Night Cream</h5>
+              <p>Rich overnight repair cream with Vitamin E & rosehip oil. Wake up glowing.</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 890</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Vitamin%20E%20Night%20Cream'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New 7 -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Glitter%20Nail%20Set'">
+            <img src="https://m.media-amazon.com/images/I/61o5wOuDHWL.jpg" alt="Glitter Nail Set"/>
+            <div class="prod-badge gold">New</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-hand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Glitter Nail Set</h5>
+              <p>Holographic & chunky glitter nail polishes in 6 dazzling shades. Party-ready!</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 560</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Glitter%20Nail%20Set'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New 8 -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Bridal%20Henna%20Kit'">
+            <img src="https://khairhenna.com/cdn/shop/files/BRIDALHENGUAKIT.png?v=1698488312&width=600" alt="Bridal Henna Kit"/>
+            <div class="prod-badge gold">New</div>
+            <div class="prod-card-body">
+              <h5><i class="fa-solid fa-heart me-2" style="color:var(--mid);font-size:.85rem"></i>Bridal Henna Kit</h5>
+              <p>Premium natural henna cones + stencils for stunning bridal mehndi designs.</p>
+              <div class="prod-footer">
+                <span class="prod-price">Rs. 1400</span>
+                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Bridal%20Henna%20Kit'"><i class="fa-solid fa-eye me-1"></i>View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Divider before full grid -->
+    <div class="text-center mb-4">
+      <div class="sec-label" style="justify-content:center;"><i class="fa-solid fa-grid-2 me-2"></i>Browse All</div>
+      <div class="sec-title" style="font-size:2rem;">All Products</div>
+      <div class="sec-line"></div>
+    </div>
+
+    <!-- FILTER -->
+    <div class="filter-tabs">
+      <button class="filter-btn active" onclick="filterProducts('all',this)">All</button>
+      <button class="filter-btn" onclick="filterProducts('hair',this)">Hair Care</button>
+      <button class="filter-btn" onclick="filterProducts('skin',this)">Skin Care</button>
+      <button class="filter-btn" onclick="filterProducts('makeup',this)">Makeup</button>
+      <button class="filter-btn" onclick="filterProducts('nail',this)">Nail</button>
+      <button class="filter-btn" onclick="filterProducts('jewellery',this)">Jewellery</button>
+      <button class="filter-btn" onclick="filterProducts('bridal',this)">Bridal</button>
+    </div>
+
+<!-- Recommendation Box -->
+        <div id="recommendation-box" style="display:none; margin-bottom:20px;" class="col-12">
+          <h4 style="color:var(--gold); margin-bottom:10px;">Recommended Product</h4>
+          <div id="recommendation-card"></div>
+        </div>
+        <!-- Products Grid -->
+        <div class="row g-5" id="products-grid">
+
+
+      <!-- ===== HAIR CARE ===== -->
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
+        <div class="prod-card position-relative">
+          <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=500&auto=format&fit=crop" alt="Herbal Shampoo"/>
+          <div class="prod-badge">Best Seller</div>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-wind me-2" style="color:var(--mid);font-size:.85rem"></i>Herbal Shampoo</h5>
+            <p>Nourishing herbal formula for all hair types. Reduces hair fall.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 350</span>
+              <button class="add-btn" onclick="addToCart('Herbal Shampoo',350)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500&auto=format&fit=crop" alt="Argan Serum"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-wind me-2" style="color:var(--mid);font-size:.85rem"></i>Argan Hair Serum</h5>
+            <p>Moroccan argan oil serum for frizz control and deep conditioning.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 650</span>
+              <button class="add-btn" onclick="addToCart('Argan Hair Serum',650)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=500&auto=format&fit=crop" alt="Hair Conditioner"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-wind me-2" style="color:var(--mid);font-size:.85rem"></i>Deep Conditioner</h5>
+            <p>Intensive deep conditioning treatment for dry & damaged hair.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 420</span>
+              <button class="add-btn" onclick="addToCart('Deep Conditioner',420)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1617952739454-7c0e3a64f4c3?w=500&auto=format&fit=crop" alt="Hair Oil"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-wind me-2" style="color:var(--mid);font-size:.85rem"></i>Coconut Hair Oil</h5>
+            <p>Pure coconut oil blend for scalp nourishment and hair growth.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 280</span>
+              <button class="add-btn" onclick="addToCart('Coconut Hair Oil',280)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SKIN CARE ===== -->
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop" alt="Moisturizer"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-droplet me-2" style="color:var(--mid);font-size:.85rem"></i>Vitamin C Moisturizer</h5>
+            <p>Brightening moisturizer with SPF 20. Lightweight, non-greasy formula.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 850</span>
+              <button class="add-btn" onclick="addToCart('Vitamin C Moisturizer',850)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1596178060810-72660ee8b9a8?w=500&auto=format&fit=crop" alt="Face Mask"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-droplet me-2" style="color:var(--mid);font-size:.85rem"></i>Rose Clay Face Mask</h5>
+            <p>Deep cleansing clay mask with rose extract for glowing skin.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 550</span>
+              <button class="add-btn" onclick="addToCart('Rose Clay Face Mask',550)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&auto=format&fit=crop" alt="Sunscreen"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-droplet me-2" style="color:var(--mid);font-size:.85rem"></i>SPF 50 Sunscreen</h5>
+            <p>Broad-spectrum protection. Water-resistant and non-sticky.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 720</span>
+              <button class="add-btn" onclick="addToCart('SPF 50 Sunscreen',720)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop" alt="Toner"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-droplet me-2" style="color:var(--mid);font-size:.85rem"></i>Rose Water Toner</h5>
+            <p>Natural rose water toner to balance skin pH and hydrate.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 380</span>
+              <button class="add-btn" onclick="addToCart('Rose Water Toner',380)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== MAKEUP ===== -->
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
+        <div class="prod-card position-relative">
+          <img src="https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=500&auto=format&fit=crop" alt="Makeup Kit"/>
+          <div class="prod-badge">Popular</div>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Pro Makeup Kit</h5>
+            <p>Complete kit with foundation, blush, eyeshadow, mascara & lip gloss.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 1800</span>
+              <button class="add-btn" onclick="addToCart('Pro Makeup Kit',1800)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1586495777744-4e6232bf2e37?w=500&auto=format&fit=crop" alt="Lipstick"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Matte Lipstick Set</h5>
+            <p>Set of 6 long-lasting matte lipsticks in classic Pakistani shades.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 950</span>
+              <button class="add-btn" onclick="addToCart('Matte Lipstick Set',950)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1631214524020-3c69888b2e68?w=500&auto=format&fit=crop" alt="Foundation"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>HD Foundation</h5>
+            <p>Full-coverage HD foundation. Matches all Pakistani skin tones.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 1100</span>
+              <button class="add-btn" onclick="addToCart('HD Foundation',1100)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&auto=format&fit=crop" alt="Eyeshadow"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Eyeshadow Palette</h5>
+            <p>18-shade smoky & everyday palette with matte and shimmer finishes.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 1350</span>
+              <button class="add-btn" onclick="addToCart('Eyeshadow Palette',1350)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== NAIL ===== -->
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="nail">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&auto=format&fit=crop" alt="Nail Paint"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-hand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Nail Paint Set</h5>
+            <p>12-shade nail paint collection. Quick dry, chip-resistant formula.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 480</span>
+              <button class="add-btn" onclick="addToCart('Nail Paint Set',480)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="nail">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=500&auto=format&fit=crop" alt="Nail Art"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-paint-brush me-2" style="color:var(--mid);font-size:.85rem"></i>Nail Art Kit</h5>
+            <p>Stickers, glitter dust, stamping plates & nail art tools all in one.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 620</span>
+              <button class="add-btn" onclick="addToCart('Nail Art Kit',620)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="nail">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&auto=format&fit=crop" alt="Gel Nails"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-paint-brush me-2" style="color:var(--mid);font-size:.85rem"></i>Gel Nail Kit</h5>
+            <p>Professional gel nail kit with UV lamp. Long-lasting up to 3 weeks.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 1500</span>
+              <button class="add-btn" onclick="addToCart('Gel Nail Kit',1500)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== JEWELLERY ===== -->
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="jewellery">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&auto=format&fit=crop" alt="Gold Set"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-gem me-2" style="color:var(--mid);font-size:.85rem"></i>Gold Plated Set</h5>
+            <p>Elegant necklace + earrings set. Perfect for events and parties.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 1200</span>
+              <button class="add-btn" onclick="addToCart('Gold Plated Set',1200)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="jewellery">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&auto=format&fit=crop" alt="Earrings"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-gem me-2" style="color:var(--mid);font-size:.85rem"></i>Jhumka Earrings</h5>
+            <p>Traditional Pakistani jhumka earrings with stone work. Handcrafted.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 750</span>
+              <button class="add-btn" onclick="addToCart('Jhumka Earrings',750)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="jewellery">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1573408301185-9519f94815f4?w=500&auto=format&fit=crop" alt="Bracelet"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-gem me-2" style="color:var(--mid);font-size:.85rem"></i>Stone Bracelet</h5>
+            <p>Multi-stone bracelet set in gold tone. Available in multiple colors.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 580</span>
+              <button class="add-btn" onclick="addToCart('Stone Bracelet',580)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== BRIDAL ===== -->
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="bridal">
+        <div class="prod-card position-relative">
+          <img src="https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?w=500&auto=format&fit=crop" alt="Bridal Kit"/>
+          <div class="prod-badge">Premium</div>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-heart me-2" style="color:var(--mid);font-size:.85rem"></i>Complete Bridal Kit</h5>
+            <p>Everything a bride needs — makeup, skincare, jewellery & fragrance.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 5500</span>
+              <button class="add-btn" onclick="addToCart('Complete Bridal Kit',5500)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="bridal">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1541643600914-78b084683702?w=500&auto=format&fit=crop" alt="Bridal Fragrance"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-heart me-2" style="color:var(--mid);font-size:.85rem"></i>Bridal Fragrance Set</h5>
+            <p>Luxury perfume collection curated specially for brides.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 2800</span>
+              <button class="add-btn" onclick="addToCart('Bridal Fragrance Set',2800)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="bridal">
+        <div class="prod-card">
+          <img src="https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?w=500&auto=format&fit=crop" alt="Bridal Jewellery"/>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-heart me-2" style="color:var(--mid);font-size:.85rem"></i>Bridal Jewellery Set</h5>
+            <p>Complete bridal jewellery — necklace, earrings, maang tikka & bangles.</p>
+            <div class="prod-footer">
+              <span class="prod-price">Rs. 4200</span>
+              <button class="add-btn" onclick="addToCart('Bridal Jewellery Set',4200)"><i class="fa-solid fa-cart-plus me-1"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPCOMING -->
+      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="all">
+        <div class="prod-card position-relative">
+          <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&auto=format&fit=crop" alt="Upcoming"/>
+          <div class="prod-badge gold">Coming Soon</div>
+          <div class="prod-card-body">
+            <h5><i class="fa-solid fa-star me-2" style="color:var(--mid);font-size:.85rem"></i>Winter Skincare Range</h5>
+            <p>Our new winter skincare line — coming this season. Stay tuned!</p>
+            <div class="prod-footer">
+              <span class="prod-price" style="color:var(--gold)">Coming Soon</span>
+              <button class="add-btn" style="opacity:.45;cursor:not-allowed" disabled>Notify</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER & SCROLL TOP -->
+<div id="footer-placeholder"></div>
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="common.js"></script>
+<script>
+  renderNav('Products'); renderFooter(); initScrollTop();
+
+  // High Quality Attractive Product Images Map
+  var highQualityImages = {
+    'Herbal Shampoo':        'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=500&auto=format&fit=crop',
+    'Argan Hair Serum':      'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500&auto=format&fit=crop',
+    'Deep Conditioner':      'https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=500&auto=format&fit=crop',
+    'Coconut Hair Oil':      'https://pk.hemaniherbals.com/cdn/shop/files/8964001506287P_1_jpg_9c53e111-f4e8-45c5-94fe-15dd923aab5a.jpg?v=1771266911',
+    'Vitamin C Moisturizer': 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop',
+    'Rose Clay Face Mask':   'https://www.brambleberry.com/on/demandware.static/-/Sites-brambleberry-master-catalog/default/dwff229ba6/projectimages/projectimages%20PS000001-000020/PS000020-Main.jpg',
+    'SPF 50 Sunscreen':      'https://images.unsplash.com/photo-1617897903246-719242758050?w=800&auto=format&fit=crop',
+    'Rose Water Toner':      'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop',
+    'Pro Makeup Kit':        'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=500&auto=format&fit=crop',
+    'Matte Lipstick Set':    'https://www.ameena.pk/cdn/shop/files/huda-Beauty-Lipsticks_1000x.webp?v=1721927383',
+    'HD Foundation':         'https://lakyoubeauty.pk/cdn/shop/files/LB-F301.jpg?v=1703519639',
+    'Eyeshadow Palette':     'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&auto=format&fit=crop',
+    'Nail Paint Set':        'https://apricot.com.pk/cdn/shop/files/23-PCs-Nail-Art-Acrylic-Gel-Nail-Polish-Set-Apricot-2778.jpg?v=1727600301&width=823',
+    'Nail Art Kit':          'https://gbcosmeticsofficial.com/cdn/shop/files/S8968621073894999bb410565d34c4d3eE.jpg_750x750.jpg_19e9506b-2235-4a1e-bdd7-f5b58ed6d401.webp?v=1752111746&width=493,//gbcosmeticsofficial.com/cdn/shop/files/S8968621073894999bb410565d34c4d3eE.jpg_750x750.jpg_19e9506b-2235-4a1e-bdd7-f5b58ed6d401.webp?v=1752111746&width=600,//gbcosmeticsofficial.com/cdn/shop/files/S8968621073894999bb410565d34c4d3eE.jpg_750x750.jpg_19e9506b-2235-4a1e-bdd7-f5b58ed6d401.webp?v=1752111746&width=713,//gbcosmeticsofficial.com/cdn/shop/files/S8968621073894999bb410565d34c4d3eE.jpg_750x750.jpg_19e9506b-2235-4a1e-bdd7-f5b58ed6d401.webp?v=1752111746&width=823',
+    'Gel Nail Kit':          'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&auto=format&fit=crop',
+    'Gold Plated Set':       'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&auto=format&fit=crop',
+    'Jhumka Earrings':       'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&auto=format&fit=crop',
+    'Stone Bracelet':        'https://meerzah.pk/cdn/shop/files/WhatsAppImage2024-06-29at3.01.26PM.jpg?v=1719655874&width=700',
+    'Complete Bridal Kit':   'https://kishmishorganicskincare.com/cdn/shop/products/Bridal-Kit-2.jpg?v=1652533511&width=823',
+    'Bridal Fragrance Set':  'https://media.weddingz.in/images/02bc8f2dd7220ce6c9851b583fa6d29d/Top-5-Bridal-Perfumes-that-will-leave-you-smelling-amazing-on-your-D-day1.jpg',
+    'Bridal Jewellery Set':  'https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?w=500&auto=format&fit=crop'
+  };
+
+  // Filter products by category tab
+  function filterProducts(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    
+    // Clear URL query params to avoid confusion during manual filter tab clicks
+    if (window.history.pushState) {
+      var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+      window.history.pushState({path:newurl},'',newurl);
+    }
+    removeSearchBanner();
+
+    document.querySelectorAll('.prod-item').forEach(item => {
+      item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+    });
+  }
+
+  // Helper to remove Search Results Banner
+  function removeSearchBanner() {
+    var banner = document.getElementById('search-results-banner');
+    if (banner) banner.remove();
+  }
+
+  // Setup cards and images dynamically
+  document.querySelectorAll('.prod-item').forEach(function(item) {
+    var card = item.querySelector('.prod-card');
+    if (!card) return;
+    
+    var h5 = card.querySelector('h5');
+    var productName = '';
+    if (h5) {
+      productName = h5.textContent.replace(/^[^\w]*/, '').trim(); // Remove icon prefix if present
+    }
+    
+    // Fallback search in image alt
+    if (!productName) {
+      var img = card.querySelector('img');
+      productName = img ? img.getAttribute('alt') : '';
+    }
+
+    // Apply high quality images
+    if (productName && highQualityImages[productName]) {
+      var cardImg = card.querySelector('img');
+      if (cardImg) cardImg.src = highQualityImages[productName];
+    }
+    
+    if (productName && productName.indexOf('Winter Skincare') === -1) {
+      card.style.cursor = 'pointer';
+      card.onclick = function() {
+        location.href = 'product-detail.html?product=' + encodeURIComponent(productName);
+      };
+      
+      var btn = card.querySelector('.add-btn');
+      if (btn) {
+        btn.innerHTML = '<i class="fa-solid fa-eye me-1"></i>View';
+        btn.removeAttribute('onclick');
+        btn.onclick = function(e) {
+          e.stopPropagation();
+          location.href = 'product-detail.html?product=' + encodeURIComponent(productName);
+        };
+      }
+    }
+  });
+
+
+  // Add to Cart function (used by product card buttons as fallback)
+  function addToCart(name, price) {
+    var cart = [];
+    try { cart = JSON.parse(localStorage.getItem('simplon_cart') || '[]'); } catch(e) {}
+    var existing = cart.find(function(i){ return i.name === name; });
+    if (existing) { existing.qty++; } else { cart.push({name: name, price: price, qty: 1}); }
+    localStorage.setItem('simplon_cart', JSON.stringify(cart));
+    if (typeof updateNavbarCartCount === 'function') updateNavbarCartCount();
+    // Show toast
+    var toast = document.getElementById('cart-toast');
+    if (toast) {
+      toast.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i>' + name + ' added to cart!';
+      toast.style.display = 'block';
+      setTimeout(function(){ toast.style.display='none'; }, 2200);
+    }
+    // Show bubble
+    var bubble = document.getElementById('cart-bubble');
+    if (bubble) {
+      var total = cart.reduce(function(s,i){ return s + i.qty; }, 0);
+      bubble.innerHTML = '<i class="fa-solid fa-cart-shopping me-2"></i>View Cart <span class="cart-count">' + total + '</span>';
+      bubble.style.display = 'block';
+    }
+  }
+
+  // Handle URL Search Parameters
+  function handleUrlParams() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var searchQuery = urlParams.get('search');
+    var category = urlParams.get('cat');
+
+    if (searchQuery || (category && category !== 'all')) {
+      var matchCount = 0;
+      var matchedProducts = [];
+      searchQuery = searchQuery ? searchQuery.toLowerCase() : '';
+      
+      // Update filter active button
+      if (category) {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(category)) {
+            btn.classList.add('active');
+          }
+        });
+      }
+
+      document.querySelectorAll('.prod-item').forEach(item => {
+        var card = item.querySelector('.prod-card');
+        var textContent = card ? card.textContent.toLowerCase() : '';
+        var matchesSearch = !searchQuery || textContent.includes(searchQuery);
+        var matchesCat = !category || category === 'all' || item.dataset.cat === category;
+
+        if (matchesSearch && matchesCat) {
+          item.style.display = '';
+          matchCount++;
+          matchedProducts.push(item);
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      // Show search banner feedback
+      removeSearchBanner();
+      var grid = document.getElementById('products-grid');
+      var banner = document.createElement('div');
+      banner.id = 'search-results-banner';
+      banner.className = 'col-12 text-center mb-4';
+      banner.innerHTML = `
+        <div style="background: rgba(201, 169, 110, 0.1); border: 1px solid var(--gold); padding: 14px 20px; border-radius: 4px; color: var(--gold); font-size: 0.95rem; letter-spacing: 1px;">
+          <i class="fa-solid fa-magnifying-glass me-2"></i>Found <strong>${matchCount}</strong> results for "${searchQuery || category}"
+          <a href="products.html" style="color: #fff; text-decoration: underline; margin-left: 15px; font-weight: 500;">Clear Filter</a>
+        </div>
+      `;
+      grid.parentNode.insertBefore(banner, grid);
+
+      // Recommendation logic: show first matched product as recommendation
+      var recBox = document.getElementById('recommendation-box');
+      var recCard = document.getElementById('recommendation-card');
+      if (matchedProducts.length > 0) {
+        var first = matchedProducts[0];
+        var img = first.querySelector('img').src;
+        var title = first.querySelector('h5').textContent.trim();
+        var price = first.querySelector('.prod-price').textContent.trim();
+        recCard.innerHTML = `
+          <div class="prod-card" style="width:200px; display:inline-block;">
+            <img src="${img}" alt="${title}" style="height:150px; object-fit:cover;"/>
+            <div class="prod-card-body">
+              <h5>${title}</h5>
+              <span class="prod-price">${price}</span>
+            </div>
+          </div>`;
+        recBox.style.display = 'block';
+      } else {
+        recBox.style.display = 'none';
+      }
+    }
+  }
+
+  // Run URL parameters check on start
+  handleUrlParams();
+</script>
+<div id="cart-toast"></div>
+<div id="cart-bubble" onclick="location.href='order.html'" style="display:none"></div>
+<script src="animations.js"></script>
+</body>
+</html>
