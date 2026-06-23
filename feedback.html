@@ -21,17 +21,36 @@
       display: block; width: 100%;
       border: 0; border-bottom: 1.5px solid #e0c4cc;
       background: transparent; color: var(--dark);
-      font-family: 'Jost', sans-serif; font-size: 1rem;
-      font-weight: 700;
-      padding: 10px 4px; margin-bottom: 28px; outline: none;
-      transition: .3s;
+      font-family: 'Cormorant Garamond', 'Jost', serif; font-size: 1.25rem;
+      font-weight: 600; font-style: italic;
+      letter-spacing: .3px;
+      padding: 10px 4px; margin-bottom: 6px; outline: none;
+      transition: border-color .3s, box-shadow .3s, background .3s;
+      border-radius: 2px;
     }
-    .fb-input:focus { border-color: var(--rose); }
-    .fb-input::placeholder { color: #c4a0af; }
+    .fb-input:focus {
+      border-color: var(--rose);
+      background: rgba(190, 216, 115, .06);
+      box-shadow: 0 6px 14px -8px rgba(181,85,106,.35);
+    }
+    .fb-input::placeholder { color: #c4a0af; font-style: italic; font-weight: 500; }
+    .fb-input:not(:placeholder-shown) { font-weight: 700; font-style: normal; }
+    .fb-field { margin-bottom: 26px; }
     .fb-label {
       font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
       color: var(--gold); display: block; margin-bottom: 6px;
     }
+    .fb-error {
+      display: none; font-family: 'Jost', sans-serif; font-size: .8rem;
+      font-weight: 600; letter-spacing: .3px; color: #e25c6b;
+      margin-top: 4px;
+    }
+    .fb-field.has-error .fb-input {
+      border-color: #e25c6b;
+      background: rgba(226,92,107,.06);
+    }
+    .fb-field.has-error .fb-error { display: block; }
+    .fb-field.is-valid .fb-input { border-color: #8fae4e; }
 
     /* STAR RATING */
     .star-rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 6px; margin-bottom: 28px; }
@@ -42,6 +61,40 @@
     .star-rating input:checked ~ label,
     .star-rating label:hover,
     .star-rating label:hover ~ label { color: var(--gold); }
+    .fb-field.has-error .star-rating label { color: #f0c9ce; }
+
+    /* CENTERED SUBMIT MODAL */
+    .fb-modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(40, 28, 20, .55);
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .fb-modal-overlay.show { display: flex; }
+    .fb-modal {
+      background: #fffdfb; border-radius: 6px; max-width: 380px; width: 100%;
+      padding: 40px 32px; text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,.25);
+      border-top: 4px solid var(--gold);
+      transform: scale(.85); opacity: 0;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .35s ease;
+    }
+    .fb-modal-overlay.show .fb-modal { transform: scale(1); opacity: 1; }
+    .fb-modal.fb-modal-error { border-top-color: #e25c6b; }
+    .fb-modal i { font-size: 3rem; color: var(--gold); margin-bottom: 14px; display: block; }
+    .fb-modal.fb-modal-error i { color: #e25c6b; }
+    .fb-modal h4 {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700;
+      color: var(--rose-dk); margin-bottom: 8px;
+    }
+    .fb-modal p { color: var(--mid); font-size: .98rem; margin-bottom: 0; }
+    .fb-modal-close {
+      margin-top: 22px; border: 0; background: var(--gold); color: #fff;
+      padding: 10px 28px; border-radius: 30px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase; font-size: .8rem;
+      cursor: pointer; transition: .2s;
+    }
+    .fb-modal-close:hover { opacity: .85; }
 
     /* RECENT FEEDBACK CARDS */
     #recent { background: var(--rose-lt); }
@@ -61,6 +114,17 @@
     }
     .success-box i { font-size: 2.5rem; color: var(--gold); margin-bottom: 10px; display: block; }
     .success-box p { color: var(--rose-dk); font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; }
+
+    /* ============ RESPONSIVE OVERRIDES ============ */
+    html { overflow-x: hidden; }
+
+    @media (max-width: 767px) {
+      .fb-card { padding: 22px 18px; }
+      .fb-input { font-size: .92rem; }
+      .star-rating { justify-content: center; }
+      .star-rating label { font-size: 1.5rem; }
+      .review-card { padding: 18px; }
+    }
   </style>
 </head>
 <body>
@@ -83,47 +147,57 @@
             <div class="sec-line"></div>
           </div>
 
-          <label class="fb-label" >Your Full Name</label>
-          <input class="fb-input" id="fb-name" type="text" placeholder="Ashmit, Hannan, Najeeb"/>
-
-          <label class="fb-label">Email Address</label>
-          <input class="fb-input" id="fb-email" type="email" placeholder="your@email.com"/>
-
-          <label class="fb-label">Branch You Visited</label>
-          <select class="fb-input" id="fb-branch">
-            <option value="">— Select Branch —</option>
-            <option>Karachi (Head Office)</option>
-            <option>Lahore</option>
-            <option>Islamabad</option>
-            <option>Peshawar</option>
-            <option>Online Order</option>
-          </select>
-
-          <label class="fb-label">Your Rating</label>
-          <div class="star-rating">
-            <input type="radio" id="s5" name="rating" value="5"/>
-            <label for="s5"><i class="fa-solid fa-star"></i></label>
-            <input type="radio" id="s4" name="rating" value="4"/>
-            <label for="s4"><i class="fa-solid fa-star"></i></label>
-            <input type="radio" id="s3" name="rating" value="3"/>
-            <label for="s3"><i class="fa-solid fa-star"></i></label>
-            <input type="radio" id="s2" name="rating" value="2"/>
-            <label for="s2"><i class="fa-solid fa-star"></i></label>
-            <input type="radio" id="s1" name="rating" value="1"/>
-            <label for="s1"><i class="fa-solid fa-star"></i></label>
+          <div class="fb-field" id="field-name">
+            <label class="fb-label">Your Full Name</label>
+            <input class="fb-input" id="fb-name" type="text" placeholder="Ashmit, Hannan, Najeeb"/>
+            <div class="fb-error" id="err-name">Please enter your full name (at least 3 letters).</div>
           </div>
 
-          <label class="fb-label">Your Message</label>
-          <textarea class="fb-input" id="fb-msg" rows="4" placeholder="Tell us about your experience..."></textarea>
+          <div class="fb-field" id="field-email">
+            <label class="fb-label">Email Address</label>
+            <input class="fb-input" id="fb-email" type="email" placeholder="your@email.com"/>
+            <div class="fb-error" id="err-email">Please enter a valid email address.</div>
+          </div>
+
+          <div class="fb-field" id="field-branch">
+            <label class="fb-label">Branch You Visited</label>
+            <select class="fb-input" id="fb-branch">
+              <option value="">— Select Branch —</option>
+              <option>Karachi (Head Office)</option>
+              <option>Lahore</option>
+              <option>Islamabad</option>
+              <option>Peshawar</option>
+              <option>Online Order</option>
+            </select>
+            <div class="fb-error" id="err-branch">Please select the branch you visited.</div>
+          </div>
+
+          <div class="fb-field" id="field-rating">
+            <label class="fb-label">Your Rating</label>
+            <div class="star-rating">
+              <input type="radio" id="s5" name="rating" value="5"/>
+              <label for="s5"><i class="fa-solid fa-star"></i></label>
+              <input type="radio" id="s4" name="rating" value="4"/>
+              <label for="s4"><i class="fa-solid fa-star"></i></label>
+              <input type="radio" id="s3" name="rating" value="3"/>
+              <label for="s3"><i class="fa-solid fa-star"></i></label>
+              <input type="radio" id="s2" name="rating" value="2"/>
+              <label for="s2"><i class="fa-solid fa-star"></i></label>
+              <input type="radio" id="s1" name="rating" value="1"/>
+              <label for="s1"><i class="fa-solid fa-star"></i></label>
+            </div>
+            <div class="fb-error" id="err-rating">Please give us a star rating.</div>
+          </div>
+
+          <div class="fb-field" id="field-msg">
+            <label class="fb-label">Your Message</label>
+            <textarea class="fb-input" id="fb-msg" rows="4" placeholder="Tell us about your experience..."></textarea>
+            <div class="fb-error" id="err-msg">Please write at least 10 characters telling us about your experience.</div>
+          </div>
 
           <button class="btn-gold w-100 text-center" style="display:block;width:100%" onclick="submitFeedback()">
             <i class="fa-solid fa-paper-plane me-2"></i>Submit Feedback
           </button>
-
-          <div class="success-box" id="fb-success">
-            <i class="fa-solid fa-circle-check"></i>
-            <p>Thank you! Your feedback has been received.</p>
-          </div>
         </div>
       </div>
     </div>
@@ -168,32 +242,124 @@
 <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-arrow-up"></i></button>
 <div id="toast"></div>
 
+<div class="fb-modal-overlay" id="fb-modal-overlay">
+  <div class="fb-modal" id="fb-modal">
+    <i class="fa-solid fa-circle-check" id="fb-modal-icon"></i>
+    <h4 id="fb-modal-title">Thank You!</h4>
+    <p id="fb-modal-text">Your feedback has been received.</p>
+    <button class="fb-modal-close" onclick="closeFbModal()">Close</button>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="common.js"></script>
 <script>
   renderNav('Feedback'); renderFooter(); initScrollTop();
 
-  function submitFeedback() {
-    var name = document.getElementById('fb-name').value.trim();
-    var email = document.getElementById('fb-email').value.trim();
-    var msg = document.getElementById('fb-msg').value.trim();
-    var rating = document.querySelector('input[name="rating"]:checked');
+  function setFieldError(fieldId, errId, isError) {
+    var field = document.getElementById(fieldId);
+    field.classList.toggle('has-error', isError);
+    field.classList.toggle('is-valid', !isError);
+  }
 
-    var t = document.getElementById('toast');
-    if (!name || !email || !msg) {
-      t.innerHTML = '<i class="fa-solid fa-circle-exclamation me-2"></i>Please fill all fields!';
-      t.style.display = 'block';
-      setTimeout(function(){ t.style.display='none'; }, 2500);
+  function validateName() {
+    var v = document.getElementById('fb-name').value.trim();
+    var ok = v.length >= 3 && /[A-Za-z]/.test(v);
+    setFieldError('field-name', 'err-name', !ok);
+    return ok;
+  }
+
+  function validateEmail() {
+    var v = document.getElementById('fb-email').value.trim();
+    var ok = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(v);
+    setFieldError('field-email', 'err-email', !ok);
+    return ok;
+  }
+
+  function validateBranch() {
+    var v = document.getElementById('fb-branch').value;
+    var ok = v !== '';
+    setFieldError('field-branch', 'err-branch', !ok);
+    return ok;
+  }
+
+  function validateRating() {
+    var ok = !!document.querySelector('input[name="rating"]:checked');
+    setFieldError('field-rating', 'err-rating', !ok);
+    return ok;
+  }
+
+  function validateMsg() {
+    var v = document.getElementById('fb-msg').value.trim();
+    var ok = v.length >= 10;
+    setFieldError('field-msg', 'err-msg', !ok);
+    return ok;
+  }
+
+  // live validation as the user types/selects, so errors clear the moment they're fixed
+  document.getElementById('fb-name').addEventListener('input', validateName);
+  document.getElementById('fb-email').addEventListener('input', validateEmail);
+  document.getElementById('fb-branch').addEventListener('change', validateBranch);
+  document.getElementById('fb-msg').addEventListener('input', validateMsg);
+  document.querySelectorAll('input[name="rating"]').forEach(function(r){
+    r.addEventListener('change', validateRating);
+  });
+
+  function showFbModal(opts) {
+    var overlay = document.getElementById('fb-modal-overlay');
+    var modal = document.getElementById('fb-modal');
+    document.getElementById('fb-modal-icon').className = opts.icon;
+    document.getElementById('fb-modal-title').textContent = opts.title;
+    document.getElementById('fb-modal-text').textContent = opts.text;
+    modal.classList.toggle('fb-modal-error', !!opts.isError);
+    overlay.classList.add('show');
+  }
+
+  function closeFbModal() {
+    document.getElementById('fb-modal-overlay').classList.remove('show');
+  }
+
+  document.getElementById('fb-modal-overlay').addEventListener('click', function(e){
+    if (e.target === this) closeFbModal();
+  });
+
+  function submitFeedback() {
+    var nameOk = validateName();
+    var emailOk = validateEmail();
+    var branchOk = validateBranch();
+    var ratingOk = validateRating();
+    var msgOk = validateMsg();
+
+    if (!nameOk || !emailOk || !branchOk || !ratingOk || !msgOk) {
+      showFbModal({
+        icon: 'fa-solid fa-circle-exclamation',
+        title: 'Almost There!',
+        text: 'Please correct the highlighted fields before submitting.',
+        isError: true
+      });
+      // scroll the first invalid field into view for convenience
+      var firstError = document.querySelector('.fb-field.has-error');
+      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
+
+    var rating = document.querySelector('input[name="rating"]:checked');
+
     document.getElementById('fb-name').value = '';
     document.getElementById('fb-email').value = '';
     document.getElementById('fb-msg').value = '';
     document.getElementById('fb-branch').value = '';
     if (rating) rating.checked = false;
-    var s = document.getElementById('fb-success');
-    s.style.display = 'block';
-    setTimeout(function(){ s.style.display = 'none'; }, 4000);
+    ['field-name','field-email','field-branch','field-rating','field-msg'].forEach(function(id){
+      document.getElementById(id).classList.remove('is-valid', 'has-error');
+    });
+
+    showFbModal({
+      icon: 'fa-solid fa-circle-check',
+      title: 'Thank You!',
+      text: 'Your feedback has been received. We appreciate you taking the time to share it with us.',
+      isError: false
+    });
   }
 </script>
 <script src="animations.js"></script>
