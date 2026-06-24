@@ -76,6 +76,80 @@
       display:inline-flex; align-items:center; justify-content:center;
       font-size:.75rem; font-weight:700; margin-left:8px;
     }
+
+    /* ============ CAROUSEL (Trending / Fresh Picks) ============ */
+    .card-carousel { position:relative; padding:0 48px; }
+    .carousel-viewport { overflow:hidden; }
+    .carousel-track {
+      display:flex; gap:24px; transition:transform .45s cubic-bezier(.25,.8,.25,1);
+      will-change:transform;
+    }
+    .carousel-slide {
+      flex:0 0 calc((100% - 24px*3)/4); /* 4 visible, 3 gaps */
+      min-width:0;
+    }
+    .carousel-slide .prod-card { margin-bottom:0; }
+
+    .car-arrow {
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:42px; height:42px; border-radius:50%;
+      background:#fff; border:1px solid var(--gold);
+      color:var(--dark); font-size:.95rem;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; z-index:5; transition:.25s;
+      box-shadow:0 4px 14px rgba(0,0,0,.08);
+    }
+    .car-arrow:hover { background:var(--gold); color:#fff; }
+    .car-arrow.prev { left:0; }
+    .car-arrow.next { right:0; }
+    .car-arrow:disabled { opacity:.35; cursor:default; }
+    .car-arrow:disabled:hover { background:#fff; color:var(--dark); }
+
+    .car-dots { display:flex; justify-content:center; gap:8px; margin-top:26px; }
+    .car-dots .dot {
+      width:9px; height:9px; border-radius:50%;
+      background:#ddd; border:none; cursor:pointer; padding:0;
+      transition:.25s;
+    }
+    .car-dots .dot.active { background:var(--rose); width:22px; border-radius:5px; }
+
+    @media (max-width: 991.98px) {
+      .carousel-slide { flex:0 0 calc((100% - 24px)/2); } /* 2 visible */
+    }
+    @media (max-width: 575.98px) {
+      .card-carousel { padding:0 38px; }
+      .carousel-slide { flex:0 0 100%; } /* 1 visible */
+      .car-arrow { width:36px; height:36px; font-size:.85rem; }
+    }
+
+    /* ============ RESPONSIVE OVERRIDES ============ */
+    html { overflow-x: hidden; }
+
+    @media (max-width: 767px) {
+      #products-section { padding: 50px 14px; }
+      .filter-tabs { gap: 6px; margin-bottom: 28px; }
+      .filter-btn { padding: 6px 14px; font-size: .68rem; }
+
+      .prod-card img { height: 160px; }
+      .prod-card-body { padding: 12px; }
+      .prod-card-body h5 { font-size: 1.05rem; }
+      .prod-card-body p { font-size: .82rem; }
+      .prod-price { font-size: .85rem; }
+      .add-btn { font-size: .65rem; padding: 7px 10px; }
+
+      #cart-toast { right: 14px; bottom: 14px; left: 14px; font-size: .8rem; }
+      #cart-bubble { left: 14px; bottom: 14px; font-size: .75rem; padding: 10px 16px; }
+    }
+
+    @media (max-width: 420px) {
+      .prod-footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .add-btn { width: 100%; text-align: center; }
+    }
+
+    /* Cards go full-width below the sm breakpoint, so give the image a bit more room */
+    @media (max-width: 575.98px) {
+      .prod-card img { height: 210px; }
+    }
   </style>
 </head>
 <body>
@@ -97,72 +171,81 @@
         <div class="sec-title" style="font-size:2rem;">Trending Now</div>
         <div class="sec-line"></div>
       </div>
-      <div class="row g-4">
+      <div class="card-carousel">
+        <button class="car-arrow prev" aria-label="Previous" onclick="carouselMove('trending',-1)"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="car-arrow next" aria-label="Next" onclick="carouselMove('trending',1)"><i class="fa-solid fa-chevron-right"></i></button>
 
-        <!-- Trending 1 -->
-        <div class="col-6 col-md-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Matte%20Lipstick%20Set'">
-            <img src="https://zenixstore.pk/cdn/shop/files/5_1756301435.webp?v=1757067909&width=1500" alt="Matte Lipstick Set"/>
-            <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Matte Lipstick Set</h5>
-              <p>6 long-lasting matte shades loved by thousands.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 950</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Matte%20Lipstick%20Set'"><i class="fa-solid fa-eye me-1"></i>View</button>
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="trending-track">
+
+            <!-- Trending 1 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Matte%20Lipstick%20Set'">
+                <img src="https://zenixstore.pk/cdn/shop/files/5_1756301435.webp?v=1757067909&width=1500" alt="Matte Lipstick Set"/>
+                <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Matte Lipstick Set</h5>
+                  <p>6 long-lasting matte shades loved by thousands.</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 950</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Matte%20Lipstick%20Set'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
               </div>
             </div>
+
+            <!-- Trending 2 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Argan%20Hair%20Serum'">
+                <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500&auto=format&fit=crop" alt="Argan Hair Serum"/>
+                <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-wind me-2" style="color:var(--mid);font-size:.85rem"></i>Argan Hair Serum</h5>
+                  <p>Moroccan argan oil for frizz-free, glossy hair.</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 650</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Argan%20Hair%20Serum'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trending 3 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Eyeshadow%20Palette'">
+                <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&auto=format&fit=crop" alt="Eyeshadow Palette"/>
+                <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Eyeshadow Palette</h5>
+                  <p>18-shade smoky palette — our #1 social media hit.</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 1350</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Eyeshadow%20Palette'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trending 4 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Gold%20Plated%20Set'">
+                <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&auto=format&fit=crop" alt="Gold Plated Set"/>
+                <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-gem me-2" style="color:var(--mid);font-size:.85rem"></i>Gold Plated Set</h5>
+                  <p>Elegant necklace + earring set — perfect for events.</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 1200</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Gold%20Plated%20Set'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <!-- Trending 2 -->
-        <div class="col-6 col-md-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Argan%20Hair%20Serum'">
-            <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500&auto=format&fit=crop" alt="Argan Hair Serum"/>
-            <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-wind me-2" style="color:var(--mid);font-size:.85rem"></i>Argan Hair Serum</h5>
-              <p>Moroccan argan oil for frizz-free, glossy hair.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 650</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Argan%20Hair%20Serum'"><i class="fa-solid fa-eye me-1"></i>View</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Trending 3 -->
-        <div class="col-6 col-md-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Eyeshadow%20Palette'">
-            <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&auto=format&fit=crop" alt="Eyeshadow Palette"/>
-            <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Eyeshadow Palette</h5>
-              <p>18-shade smoky palette — our #1 social media hit.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 1350</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Eyeshadow%20Palette'"><i class="fa-solid fa-eye me-1"></i>View</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Trending 4 -->
-        <div class="col-6 col-md-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Gold%20Plated%20Set'">
-            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&auto=format&fit=crop" alt="Gold Plated Set"/>
-            <div class="prod-badge" style="background:var(--rose)"><i class="fa-solid fa-fire me-1"></i>Hot</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-gem me-2" style="color:var(--mid);font-size:.85rem"></i>Gold Plated Set</h5>
-              <p>Elegant necklace + earring set — perfect for events.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 1200</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Gold%20Plated%20Set'"><i class="fa-solid fa-eye me-1"></i>View</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <div class="car-dots" id="trending-dots"></div>
       </div>
     </div>
 
@@ -176,136 +259,145 @@
 
 
       
-      <div class="row g-4">
+      <div class="card-carousel">
+        <button class="car-arrow prev" aria-label="Previous" onclick="carouselMove('freshpicks',-1)"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="car-arrow next" aria-label="Next" onclick="carouselMove('freshpicks',1)"><i class="fa-solid fa-chevron-right"></i></button>
 
-        <!-- New 1 -->
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Glow%20Serum'">
-            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop" alt="Glow Serum"/>
-            <div class="prod-badge gold">New</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-droplet me-2" style="color:var(--mid);font-size:.85rem"></i>Glow Booster Serum</h5>
-              <p>Niacinamide + Hyaluronic serum for radiant, dewy skin. Lightweight & fast-absorbing.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 1100</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Glow%20Serum'"><i class="fa-solid fa-eye me-1"></i>View</button>
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="freshpicks-track">
+
+            <!-- New 1 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Glow%20Serum'">
+                <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop" alt="Glow Serum"/>
+                <div class="prod-badge gold">New</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-droplet me-2" style="color:var(--mid);font-size:.85rem"></i>Glow Booster Serum</h5>
+                  <p>Niacinamide + Hyaluronic serum for radiant, dewy skin. Lightweight & fast-absorbing.</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 1100</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Glow%20Serum'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
               </div>
             </div>
+
+            <!-- New 2 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Ombre%20Lip%20Liner'">
+                <img src="https://thelipbar.com/cdn/shop/files/facts-bawse-extra_713x.jpg?v=1731296591" alt="Ombre Lip Liner"/>
+                <div class="prod-badge gold">New</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Ombre Lip Liner</h5>
+                  <p>Dual-ended blendable lip liner for the perfect ombre pout. 8 shades available.</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 450</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Ombre%20Lip%20Liner'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- New 3 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Scalp%20Scrub'">
+                <img src="https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/AF0413s.jpg?im=Resize,width=750" alt="Scalp Scrub"/>
+                <div class="prod-badge gold">New</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-wind me-2" style="color:var(--mid);font-size:.85rem"></i>Scalp Detox Scrub</h5>
+                  <p>Salt & tea tree oil scrub to clarify scalp, reduce flakes and boost hair growth.</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 780</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Scalp%20Scrub'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- New 4 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Crystal%20Anklet'">
+                <img src="https://m.media-amazon.com/images/I/51EtuF4+G9L._AC_SY500_.jpg" alt="Crystal Anklet"/>
+                <div class="prod-badge gold">New</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-gem me-2" style="color:var(--mid);font-size:.85rem"></i>Crystal Anklet Set</h5>
+                  <p>Dainty crystal-studded anklets in gold & silver. Set of 2, gift-ready packaging.</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 650</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Crystal%20Anklet'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- New 5 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Brow%20Gel'">
+                <img src="https://www.lookfantastic.ae/images?url=https://static.thcdn.com/productimg/original/12875650-1875256174847353.jpg&format=webp&auto=avif&width=820&height=820&fit=cover" alt="Brow Gel"/>
+                <div class="prod-badge gold">New</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-eye me-2" style="color:var(--mid);font-size:.85rem"></i>Feather Brow Gel</h5>
+                  <p>Tinted brow gel for fluffy, natural brows. Waterproof & flexible hold.</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 520</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Brow%20Gel'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- New 6 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Vitamin%20E%20Night%20Cream'">
+                <img src="https://alfatah.pk/cdn/shop/files/5028197916220.jpg?v=1693177581" alt="Night Cream"/>
+                <div class="prod-badge gold">New</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-moon me-2" style="color:var(--mid);font-size:.85rem"></i>Vitamin E Night Cream</h5>
+                  <p>Rich overnight repair cream with Vitamin E & rosehip oil. Wake up glowing.</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 890</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Vitamin%20E%20Night%20Cream'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- New 7 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Glitter%20Nail%20Set'">
+                <img src="https://m.media-amazon.com/images/I/61o5wOuDHWL.jpg" alt="Glitter Nail Set"/>
+                <div class="prod-badge gold">New</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-hand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Glitter Nail Set</h5>
+                  <p>Holographic & chunky glitter nail polishes in 6 dazzling shades. Party-ready!</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 560</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Glitter%20Nail%20Set'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- New 8 -->
+            <div class="carousel-slide">
+              <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Bridal%20Henna%20Kit'">
+                <img src="https://khairhenna.com/cdn/shop/files/BRIDALHENGUAKIT.png?v=1698488312&width=600" alt="Bridal Henna Kit"/>
+                <div class="prod-badge gold">New</div>
+                <div class="prod-card-body">
+                  <h5><i class="fa-solid fa-heart me-2" style="color:var(--mid);font-size:.85rem"></i>Bridal Henna Kit</h5>
+                  <p>Premium natural henna cones + stencils for stunning bridal mehndi designs.</p>
+                  <div class="prod-footer">
+                    <span class="prod-price">Rs. 1400</span>
+                    <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Bridal%20Henna%20Kit'"><i class="fa-solid fa-eye me-1"></i>View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <!-- New 2 -->
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Ombre%20Lip%20Liner'">
-            <img src="https://thelipbar.com/cdn/shop/files/facts-bawse-extra_713x.jpg?v=1731296591" alt="Ombre Lip Liner"/>
-            <div class="prod-badge gold">New</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-wand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Ombre Lip Liner</h5>
-              <p>Dual-ended blendable lip liner for the perfect ombre pout. 8 shades available.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 450</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Ombre%20Lip%20Liner'"><i class="fa-solid fa-eye me-1"></i>View</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- New 3 -->
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Scalp%20Scrub'">
-            <img src="https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/AF0413s.jpg?im=Resize,width=750" alt="Scalp Scrub"/>
-            <div class="prod-badge gold">New</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-wind me-2" style="color:var(--mid);font-size:.85rem"></i>Scalp Detox Scrub</h5>
-              <p>Salt & tea tree oil scrub to clarify scalp, reduce flakes and boost hair growth.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 780</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Scalp%20Scrub'"><i class="fa-solid fa-eye me-1"></i>View</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- New 4 -->
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Crystal%20Anklet'">
-            <img src="https://m.media-amazon.com/images/I/51EtuF4+G9L._AC_SY500_.jpg" alt="Crystal Anklet"/>
-            <div class="prod-badge gold">New</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-gem me-2" style="color:var(--mid);font-size:.85rem"></i>Crystal Anklet Set</h5>
-              <p>Dainty crystal-studded anklets in gold & silver. Set of 2, gift-ready packaging.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 650</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Crystal%20Anklet'"><i class="fa-solid fa-eye me-1"></i>View</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- New 5 -->
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Brow%20Gel'">
-            <img src="https://www.lookfantastic.ae/images?url=https://static.thcdn.com/productimg/original/12875650-1875256174847353.jpg&format=webp&auto=avif&width=820&height=820&fit=cover" alt="Brow Gel"/>
-            <div class="prod-badge gold">New</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-eye me-2" style="color:var(--mid);font-size:.85rem"></i>Feather Brow Gel</h5>
-              <p>Tinted brow gel for fluffy, natural brows. Waterproof & flexible hold.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 520</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Brow%20Gel'"><i class="fa-solid fa-eye me-1"></i>View</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- New 6 -->
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Vitamin%20E%20Night%20Cream'">
-            <img src="https://alfatah.pk/cdn/shop/files/5028197916220.jpg?v=1693177581" alt="Night Cream"/>
-            <div class="prod-badge gold">New</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-moon me-2" style="color:var(--mid);font-size:.85rem"></i>Vitamin E Night Cream</h5>
-              <p>Rich overnight repair cream with Vitamin E & rosehip oil. Wake up glowing.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 890</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Vitamin%20E%20Night%20Cream'"><i class="fa-solid fa-eye me-1"></i>View</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- New 7 -->
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Glitter%20Nail%20Set'">
-            <img src="https://m.media-amazon.com/images/I/61o5wOuDHWL.jpg" alt="Glitter Nail Set"/>
-            <div class="prod-badge gold">New</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-hand-sparkles me-2" style="color:var(--mid);font-size:.85rem"></i>Glitter Nail Set</h5>
-              <p>Holographic & chunky glitter nail polishes in 6 dazzling shades. Party-ready!</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 560</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Glitter%20Nail%20Set'"><i class="fa-solid fa-eye me-1"></i>View</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- New 8 -->
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="prod-card position-relative" style="cursor:pointer;" onclick="location.href='product-detail.html?product=Bridal%20Henna%20Kit'">
-            <img src="https://khairhenna.com/cdn/shop/files/BRIDALHENGUAKIT.png?v=1698488312&width=600" alt="Bridal Henna Kit"/>
-            <div class="prod-badge gold">New</div>
-            <div class="prod-card-body">
-              <h5><i class="fa-solid fa-heart me-2" style="color:var(--mid);font-size:.85rem"></i>Bridal Henna Kit</h5>
-              <p>Premium natural henna cones + stencils for stunning bridal mehndi designs.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Rs. 1400</span>
-                <button class="add-btn" onclick="event.stopPropagation();location.href='product-detail.html?product=Bridal%20Henna%20Kit'"><i class="fa-solid fa-eye me-1"></i>View</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <div class="car-dots" id="freshpicks-dots"></div>
       </div>
     </div>
 
@@ -337,7 +429,7 @@
 
 
       <!-- ===== HAIR CARE ===== -->
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
         <div class="prod-card position-relative">
           <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=500&auto=format&fit=crop" alt="Herbal Shampoo"/>
           <div class="prod-badge">Best Seller</div>
@@ -352,7 +444,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500&auto=format&fit=crop" alt="Argan Serum"/>
           <div class="prod-card-body">
@@ -366,7 +458,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=500&auto=format&fit=crop" alt="Hair Conditioner"/>
           <div class="prod-card-body">
@@ -380,7 +472,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="hair">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1617952739454-7c0e3a64f4c3?w=500&auto=format&fit=crop" alt="Hair Oil"/>
           <div class="prod-card-body">
@@ -395,7 +487,7 @@
       </div>
 
       <!-- ===== SKIN CARE ===== -->
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop" alt="Moisturizer"/>
           <div class="prod-card-body">
@@ -409,7 +501,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1596178060810-72660ee8b9a8?w=500&auto=format&fit=crop" alt="Face Mask"/>
           <div class="prod-card-body">
@@ -423,7 +515,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&auto=format&fit=crop" alt="Sunscreen"/>
           <div class="prod-card-body">
@@ -437,7 +529,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="skin">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop" alt="Toner"/>
           <div class="prod-card-body">
@@ -452,7 +544,7 @@
       </div>
 
       <!-- ===== MAKEUP ===== -->
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
         <div class="prod-card position-relative">
           <img src="https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=500&auto=format&fit=crop" alt="Makeup Kit"/>
           <div class="prod-badge">Popular</div>
@@ -467,7 +559,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1586495777744-4e6232bf2e37?w=500&auto=format&fit=crop" alt="Lipstick"/>
           <div class="prod-card-body">
@@ -481,7 +573,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1631214524020-3c69888b2e68?w=500&auto=format&fit=crop" alt="Foundation"/>
           <div class="prod-card-body">
@@ -495,7 +587,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="makeup">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&auto=format&fit=crop" alt="Eyeshadow"/>
           <div class="prod-card-body">
@@ -510,7 +602,7 @@
       </div>
 
       <!-- ===== NAIL ===== -->
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="nail">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="nail">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&auto=format&fit=crop" alt="Nail Paint"/>
           <div class="prod-card-body">
@@ -524,7 +616,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="nail">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="nail">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=500&auto=format&fit=crop" alt="Nail Art"/>
           <div class="prod-card-body">
@@ -538,7 +630,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="nail">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="nail">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&auto=format&fit=crop" alt="Gel Nails"/>
           <div class="prod-card-body">
@@ -553,7 +645,7 @@
       </div>
 
       <!-- ===== JEWELLERY ===== -->
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="jewellery">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="jewellery">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&auto=format&fit=crop" alt="Gold Set"/>
           <div class="prod-card-body">
@@ -567,7 +659,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="jewellery">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="jewellery">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&auto=format&fit=crop" alt="Earrings"/>
           <div class="prod-card-body">
@@ -581,7 +673,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="jewellery">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="jewellery">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1573408301185-9519f94815f4?w=500&auto=format&fit=crop" alt="Bracelet"/>
           <div class="prod-card-body">
@@ -596,7 +688,7 @@
       </div>
 
       <!-- ===== BRIDAL ===== -->
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="bridal">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="bridal">
         <div class="prod-card position-relative">
           <img src="https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?w=500&auto=format&fit=crop" alt="Bridal Kit"/>
           <div class="prod-badge">Premium</div>
@@ -611,7 +703,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="bridal">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="bridal">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1541643600914-78b084683702?w=500&auto=format&fit=crop" alt="Bridal Fragrance"/>
           <div class="prod-card-body">
@@ -625,7 +717,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="bridal">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="bridal">
         <div class="prod-card">
           <img src="https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?w=500&auto=format&fit=crop" alt="Bridal Jewellery"/>
           <div class="prod-card-body">
@@ -640,7 +732,7 @@
       </div>
 
       <!-- UPCOMING -->
-      <div class="col-6 col-md-4 col-lg-3 prod-item" data-cat="all">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 prod-item" data-cat="all">
         <div class="prod-card position-relative">
           <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&auto=format&fit=crop" alt="Upcoming"/>
           <div class="prod-badge gold">Coming Soon</div>
@@ -854,6 +946,105 @@
       }
     }
   }
+
+  // ============ CARD CAROUSEL LOGIC ============
+  var carousels = {};
+
+  function getVisibleCount() {
+    var w = window.innerWidth;
+    if (w <= 575.98) return 1;
+    if (w <= 991.98) return 2;
+    return 4;
+  }
+
+  function initCarousel(key) {
+    var track = document.getElementById(key + '-track');
+    var dotsWrap = document.getElementById(key + '-dots');
+    if (!track) return;
+    var slides = track.children.length;
+    var visible = getVisibleCount();
+    var maxIndex = Math.max(0, slides - visible);
+
+    carousels[key] = { track: track, dotsWrap: dotsWrap, slides: slides, index: 0, visible: visible, maxIndex: maxIndex };
+
+    buildDots(key);
+    renderCarousel(key);
+  }
+
+  function buildDots(key) {
+    var c = carousels[key];
+    if (!c.dotsWrap) return;
+    var pages = c.maxIndex + 1;
+    c.dotsWrap.innerHTML = '';
+    for (var i = 0; i < pages; i++) {
+      var dot = document.createElement('button');
+      dot.className = 'dot' + (i === c.index ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      dot.onclick = (function(idx) {
+        return function() { goToSlide(key, idx); };
+      })(i);
+      c.dotsWrap.appendChild(dot);
+    }
+  }
+
+  function renderCarousel(key) {
+    var c = carousels[key];
+    if (!c) return;
+    var slideWidth = c.track.children[0] ? c.track.children[0].getBoundingClientRect().width : 0;
+    var gap = 24;
+    var offset = c.index * (slideWidth + gap);
+    c.track.style.transform = 'translateX(-' + offset + 'px)';
+
+    // update dots
+    if (c.dotsWrap) {
+      Array.prototype.forEach.call(c.dotsWrap.children, function(dot, i) {
+        dot.classList.toggle('active', i === c.index);
+      });
+    }
+
+    // update arrow disabled states
+    var wrap = c.track.closest('.card-carousel');
+    if (wrap) {
+      var prevBtn = wrap.querySelector('.car-arrow.prev');
+      var nextBtn = wrap.querySelector('.car-arrow.next');
+      if (prevBtn) prevBtn.disabled = (c.index <= 0);
+      if (nextBtn) nextBtn.disabled = (c.index >= c.maxIndex);
+    }
+  }
+
+  function goToSlide(key, idx) {
+    var c = carousels[key];
+    if (!c) return;
+    c.index = Math.max(0, Math.min(idx, c.maxIndex));
+    renderCarousel(key);
+  }
+
+  function carouselMove(key, dir) {
+    var c = carousels[key];
+    if (!c) return;
+    goToSlide(key, c.index + dir);
+  }
+
+  function refreshAllCarousels() {
+    Object.keys(carousels).forEach(function(key) {
+      var c = carousels[key];
+      var visible = getVisibleCount();
+      c.visible = visible;
+      c.maxIndex = Math.max(0, c.slides - visible);
+      if (c.index > c.maxIndex) c.index = c.maxIndex;
+      buildDots(key);
+      renderCarousel(key);
+    });
+  }
+
+  initCarousel('trending');
+  initCarousel('freshpicks');
+
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(refreshAllCarousels, 150);
+  });
 
   // Run URL parameters check on start
   handleUrlParams();
